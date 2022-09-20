@@ -7,7 +7,21 @@ import java.util.Set;
 import java.util.ArrayList;
 import java.util.HashSet;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
+import javax.persistence.Enumerated;
+import javax.persistence.EnumType;
+import javax.persistence.CollectionTable;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.CascadeType;
+
 import com.i2i.enumerator.Gender;
+import com.i2i.model.Role;
 
 /**
  * The Employee class contains the attributes of both Trainer and Trainee
@@ -16,41 +30,86 @@ import com.i2i.enumerator.Gender;
  * @author   Vishwaeaswaran M
  * @version  1.0 10 Aug 2022
  */ 
+@Entity
+@Table(name = "employee")
 public class Employee {
-    private String id;
+
+    @Id
+    @Column(name = "employee_id")
+    private String employeeId;
+
+    @Column(name = "name")
     private String name;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "gender")
     private Gender gender;
+
+    @Column(name = "address")
     private String address;
+
+    @Column(name = "designation")
     private String designation;
-    private String role;
+
+    @Column(name = "email_id")
     private String emailId;
+
+    @Column(name = "mobile_no")
     private String mobileNo;
+
+    @Column(name = "date_of_birth")
     private Date dateOfBirth;
+
+    @Column(name = "date_of_join")
     private Date dateOfJoin;
+
+    @Column(name = "previous_experience")
     private float previousExperience;
+
+    @Column(name = "specialization")
     private String specialization;
+
+    @Column(name = "training_experience")
     private float trainingExperience;
+
+    @Column(name = "no_of_trainee")
     private int noOfTrainee;
-    private List<String> trainerName;
+
+    @ElementCollection
+    @CollectionTable(name = "trainers_name", joinColumns = @JoinColumn(name = "employee_id"))
+    @Column(name = "name")
+    private List<String> trainersName;
+
+    @ElementCollection
+    @CollectionTable(name = "skills", joinColumns = @JoinColumn(name = "employee_id"))
+    @Column(name = "skill")
     private Set<String> learnedSkills;
+
+    @Column(name = "training_period")
     private int trainingPeriod;
+
+    @ManyToMany
+    @JoinTable(
+        name = "employee_role", 
+        joinColumns = @JoinColumn(name = "employee_id"), 
+        inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles;
 
     public Employee() { }
     
-    public Employee(String id, String name, Gender gender, 
-                    String address, String designation, String role,
+    public Employee(String employeeId, String name, Gender gender, 
+                    String address, String designation,
                     String emailId, String mobileNo, Date dateOfBirth,
                     Date dateOfJoin, float previousExperience, 
                     String specialization, float trainingExperience,
-                    int noOfTrainee, List<String> trainerName,  
+                    int noOfTrainee, List<String> trainersName,  
                     Set<String> learnedSkills, int trainingPeriod) {
 
-        this.id = id;
+        this.employeeId = employeeId;
         this.name = name;
         this.gender = gender;
         this.address = address;
         this.designation = designation;
-        this.role = role;
         this.emailId = emailId;
         this.mobileNo = mobileNo;
         this.dateOfBirth = dateOfBirth;
@@ -59,17 +118,17 @@ public class Employee {
         this.specialization = specialization;
         this.trainingExperience = trainingExperience;
         this.noOfTrainee = noOfTrainee;
-        this.trainerName = trainerName;
+        this.trainersName = trainersName;
         this.learnedSkills = learnedSkills;
         this.trainingPeriod = trainingPeriod;
     }
     
-    public String getId() {
-        return id;
+    public String getEmployeeId() {
+        return employeeId;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setEmployeeId(String employeeId) {
+        this.employeeId = employeeId;
     }
 
     public String getName() {
@@ -102,14 +161,6 @@ public class Employee {
 
     public void setDesignation(String designation) {
         this.designation = designation;
-    }
-
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
     }
 
     public String getEmailId() {
@@ -176,20 +227,20 @@ public class Employee {
         this.noOfTrainee = noOfTrainee;
     }
 
-    public List<String> getTrainerName() {
-        if(trainerName == null) {
-        trainerName = new ArrayList<String>();
+    public List<String> getTrainersName() {
+        if(trainersName == null) {
+            trainersName = new ArrayList<String>();
         }
-        return trainerName;
+        return trainersName;
     }
 
-    public void setTrainerName(List<String> trainerName) {
-        this.trainerName = trainerName;
+    public void setTrainersName(List<String> trainersName) {
+        this.trainersName = trainersName;
     }
 
     public Set<String> getLearnedSkills() {
         if(learnedSkills == null) {
-        learnedSkills = new HashSet<String>();
+            learnedSkills = new HashSet<String>();
         }
         return learnedSkills;
     }
@@ -204,5 +255,16 @@ public class Employee {
 
     public void setTrainingPeriod(int trainingPeriod) {
         this.trainingPeriod = trainingPeriod;
+    }
+
+    public Set<Role> getRoles() {
+        if (roles == null) {
+            roles = new HashSet<Role>();
+        }
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 }

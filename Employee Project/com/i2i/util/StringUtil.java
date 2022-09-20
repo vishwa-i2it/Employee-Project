@@ -46,7 +46,7 @@ public class StringUtil {
      * @return boolean value true, if condition satisfied otherwise false.
      */
     public static boolean isValidWord(String word) {
-        return Pattern.matches("^(?!\\.)(?!.*\\.$)(?!.*\\.\\.)^(?!\\s)(?!.*\\s$)(?!.*\\s\\s)[a-zA-Z-\\.]+${3,50}", word);
+        return Pattern.matches("^(?!\\.)(?!.*\\.$)(?!.*\\.\\.)^(?!\\s)(?!.*\\s$)(?!.*\\s\\s)[a-zA-Z-\\.\\,\\s]+${3,50}", word);
     }
 
     /**
@@ -63,7 +63,7 @@ public class StringUtil {
      * @return boolean value true, if condition satisfied otherwise false.
      */
     public static boolean isValidGender(String gender) {
-        return Pattern.matches("MALE||FEMALE||TRANSGENDER", gender);
+        return Pattern.matches("MALE||FEMALE||OTHERS", gender);
     }
 
     /**

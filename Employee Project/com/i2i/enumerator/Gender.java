@@ -10,5 +10,5 @@ package com.i2i.enumerator;
 public enum Gender {
     MALE,
     FEMALE,
-    TRANSGENDER;
+    OTHERS;
 }

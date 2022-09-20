@@ -1,6 +1,5 @@
 package com.i2i.controller;
 
-import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -9,19 +8,18 @@ import java.util.Date;
 import java.util.InputMismatchException;
 import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.logging.FileHandler;
-import java.util.logging.Handler;
-import java.util.logging.Logger;
-import java.util.logging.SimpleFormatter;
-import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
+
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 import com.i2i.dto.EmployeeDTO;
 import com.i2i.enumerator.Gender;
 import com.i2i.exception.EmployeeException;
 import com.i2i.exception.ExperienceException;
 import com.i2i.mapper.EmployeeMapper;
+import com.i2i.model.Employee;
 import com.i2i.service.impl.EmployeeServiceImpl;
 import com.i2i.service.EmployeeService;
 import com.i2i.util.CommonUtil;
@@ -40,160 +38,161 @@ import com.i2i.util.StringUtil;
  *
  */
 class EmployeeController {
-    EmployeeService employeeServiceImpl = new EmployeeServiceImpl();
-    static Logger log = Logger.getLogger(EmployeeController.class.getName());
-
+    EmployeeService employeeService = new EmployeeServiceImpl();
+    static Logger log = LogManager.getLogger(EmployeeController.class);
+    
     public static void main (String[] args) {
         EmployeeController employeeController = new EmployeeController();
         Scanner scanner = new Scanner(System.in);
         int givenProfileAccess = 0;
         boolean validInput = false;
 
-        try {
-            Handler fileHandler = new FileHandler("com/i2i/ExceptionLog.txt", true);
-            fileHandler.setFormatter(new SimpleFormatter());
-            log.setUseParentHandlers(false);
-            log.addHandler(fileHandler);
-        } catch (IOException ioException) {
-            log.warning("Internal Error\n" + ioException.toString());
-        } catch (SecurityException securityException) {
-            log.warning("Internal Error\n" + securityException.toString());
-        }
-
         do {
             System.out.println("\nWhich profile you going to access?\n" 
                            + "1. Trainer \n2. Trainee \n3. Exit");
-            do {
-                String profileAccess = scanner.nextLine().trim();
-                if (CommonUtil.isNumeric(profileAccess)) {
-                    givenProfileAccess = Integer.parseInt(profileAccess);
-                    validInput = true;
-                } else {
-                    System.err.println(ConstantUtil.INVALID_INPUT_MESSAGE);
-                    validInput = false;
-                }
-            } while (!validInput);
-
+            givenProfileAccess = employeeController.getNumber();
             switch (givenProfileAccess) {
                 case 1:
-                    int givenTrainerOperation = 0;
-
-                    do {
-                        System.out.print("\nWhich Operation Going to do?" 
-                                           + "\n1. Add Details\n2. Update Details\n3. Search\n4. View All\n5. Delete\n6. Go Back\n---> ");
-                        do {
-                            String trainerOperation = scanner.nextLine().trim();
-                            if (CommonUtil.isNumeric(trainerOperation)) {
-                                givenTrainerOperation = Integer.parseInt(trainerOperation);
-                                validInput = true;
-                            } else {
-                                System.err.println(ConstantUtil.INVALID_INPUT_MESSAGE);
-                                validInput = false;
-                            }
-                        } while (!validInput);
-
-                        switch (givenTrainerOperation) {
-                            case 1:
-                                System.out.println("");
-                                employeeController.readTrainer();
-                                break;
-
-                            case 2:
-                                employeeController.updateTrainerById();
-                                break;
-
-                            case 3:
-                                employeeController.searchTrainerById();
-                                break;
-
-                            case 4:
-                                employeeController.showTrainers();
-                                break;
-
-                            case 5:
-                                employeeController.deleteTrainerById();
-                                break;
-
-                            case 6:
-                                break;
-
-                            default:
-                                System.out.println(ConstantUtil.INVALID_INPUT_MESSAGE);
-                                break;
-                        }
-                    } while (givenTrainerOperation !=6 );
+                    employeeController.trainerOperation();
                     break;
 
                 case 2:
-                    int givenTraineeOperation = 0;
-
-                    do {
-                        System.out.print("\nWhich Operation Going to do?" 
-                                           + "\n1. Add Details\n2. Update Details\n3. Search\n4. View All\n5. Delete\n6. Go Back\n---> ");
-                        do {
-                            String traineeOperation = scanner.nextLine().trim();
-                            if (CommonUtil.isNumeric(traineeOperation)) {
-                                givenTraineeOperation = Integer.parseInt(traineeOperation);
-                                validInput = true;
-                            } else {
-                                System.err.println(ConstantUtil.INVALID_INPUT_MESSAGE);
-                                validInput = false;
-                            }
-                        } while (!validInput);
-
-                        switch (givenTraineeOperation) {
-                            case 1:
-                                System.out.println("");
-                                employeeController.readTrainee();
-                                break;
-
-                            case 2:
-                                employeeController.updateTraineeById();
-                                break;
-
-                            case 3:
-                                employeeController.searchTraineeById();
-                                break;
-
-                            case 4:
-                                employeeController.showTrainees();
-                                break;
-
-                            case 5:
-                                employeeController.deleteTraineeById();
-                                break;
-
-                            case 6:
-                                break;
-
-                            default:
-                                System.out.println(ConstantUtil.INVALID_INPUT_MESSAGE);
-                                break;
-                        }
-                    } while (givenTraineeOperation !=6 );
+                    employeeController.traineeOperation();
                     break;
 
                 case 3:
-                    do {
-                        System.out.print("Are you want to exit (y/n) ");
-                        String confirmation = scanner.nextLine().trim().toLowerCase();
-                        if ("y".equals(confirmation)) {
-                            System.out.println(ConstantUtil.THANK_YOU_MESSAGE);
-                            validInput = true;
-                        } else if ("n".equals(confirmation)) {
-                            givenProfileAccess = 0;
-                            validInput = true;
-                        } else {
-                            System.out.println(ConstantUtil.INVALID_INPUT_MESSAGE);
-                            validInput = false;
-                        }
-                    } while (!validInput);
+                    givenProfileAccess = employeeController.terminateApp();
                     break;
+
                 default:
                     System.out.println(ConstantUtil.INPUT_RANGE);
                     break;
             } 
         } while(givenProfileAccess != 3);
+    }
+
+    /**
+     * <p>
+     * This method is used to perform the trainer operation 
+     * </p>
+     *
+     */
+    private void trainerOperation() {
+        Scanner scanner = new Scanner(System.in);
+        boolean validInput = false;
+        int givenTrainerOperation = 0;
+
+        do {
+            System.out.print("\nWhich Operation Going to do?" 
+                               + "\n1. Add Details\n2. Update Details\n3. Search\n4. View All\n5. Delete\n6. Go Back\n---> ");
+            givenTrainerOperation = getNumber();
+            switch (givenTrainerOperation) {
+                case 1:
+                    System.out.println("");
+                    readTrainer();
+                    break;
+
+                case 2:
+                    updateTrainerById();
+                    break;
+
+                case 3:
+                    searchTrainerById();
+                    break;
+
+                case 4:
+                    showTrainers();
+                    break;
+
+                case 5:
+                    deleteTrainerById();
+                    break;
+
+                case 6:
+                    System.out.println(ConstantUtil.MAIN_MENU);
+                    break;
+
+                default:
+                    System.out.println(ConstantUtil.INVALID_INPUT_MESSAGE);
+                    break;
+            }
+        } while (givenTrainerOperation !=6 );
+    }
+
+    /**
+     * <p>
+     * This method is used to perform the trainee operation 
+     * </p>
+     *
+     */
+    private void traineeOperation() {
+        Scanner scanner = new Scanner(System.in);
+        boolean validInput = false;
+        int givenTraineeOperation = 0;
+
+        do {
+            System.out.print("\nWhich Operation Going to do?" 
+                               + "\n1. Add Details\n2. Update Details\n3. Search\n4. View All\n5. Delete\n6. Go Back\n---> ");
+            givenTraineeOperation = getNumber();
+            switch (givenTraineeOperation) {
+                case 1:
+                    System.out.println("");
+                    readTrainee();
+                    break;
+
+                case 2:
+                    updateTraineeById();
+                    break;
+
+                case 3:
+                    searchTraineeById();
+                    break;
+
+                case 4:
+                    showTrainees();
+                    break;
+
+                case 5:
+                    deleteTraineeById();
+                    break;
+
+                case 6:
+                    System.out.println(ConstantUtil.MAIN_MENU);
+                    break;
+
+                default:
+                    System.out.println(ConstantUtil.INVALID_INPUT_MESSAGE);
+                    break;
+            }
+        } while (givenTraineeOperation !=6 );
+    }
+
+    /**
+     * <p>
+     * This method is used to exit the application 
+     * </p>
+     *
+     */
+    private int terminateApp() {
+        Scanner scanner = new Scanner(System.in);
+        boolean validInput = false;
+        int terminateStateValue = 0;
+        do {
+            System.out.print("Are you want to exit (y/n) ");
+            String confirmation = scanner.nextLine().trim().toLowerCase();
+            if ("y".equals(confirmation)) {
+                System.out.println(ConstantUtil.THANK_YOU_MESSAGE);
+                terminateStateValue = 3;
+                validInput = true;
+            } else if ("n".equals(confirmation)) {
+                terminateStateValue = 0;
+                validInput = true;
+            } else {
+                System.out.println(ConstantUtil.INVALID_INPUT_MESSAGE);
+                validInput = false;
+            }
+        } while (!validInput);
+        return terminateStateValue;
     }
 
     /**
@@ -211,11 +210,11 @@ class EmployeeController {
         System.out.println("\nEnter the values for the Trainer: \n * These Fields are mandatory");
 
         try {
-            String id = employeeServiceImpl.generateEmployeeId();
+            String id = employeeService.generateEmployeeId();
             System.out.println("ID                    : " + id);
-            employeeDTO.setId(id);
+            employeeDTO.setEmployeeId(id);
         } catch (EmployeeException employeeException) {
-            log.severe(ConstantUtil.INSERT_ERROR + employeeException.toString());
+            log.error(ConstantUtil.INSERT_ERROR + employeeException.toString());
             System.err.println(ConstantUtil.INSERT_ERROR);
         }
 
@@ -223,35 +222,28 @@ class EmployeeController {
         employeeDTO.setGender(getGenderMandatory());
         employeeDTO.setAddress(getAddress());
         employeeDTO.setDesignation(getDesignation());
-        employeeDTO.setRole("Trainer");
         employeeDTO.setEmailId(getEmailIdMandatory());
         employeeDTO.setMobileNo(getMobileNoMandatory());
-        String dateOfBirth = getDateOfBirthMandatory();
-        try {
-            employeeDTO.setDateOfBirth(new SimpleDateFormat(ConstantUtil.DATE_FORMAT).parse(dateOfBirth));
-        } catch (ParseException parseException) {
-            log.warning(parseException.toString());
-        }
 
-        String dateOfJoin = getDateOfJoinMandatory(dateOfBirth);
-        try {
-            employeeDTO.setDateOfJoin(new SimpleDateFormat(ConstantUtil.DATE_FORMAT).parse(dateOfJoin));
-        } catch (ParseException parseException) {
-            log.warning(parseException.toString());
-        }
+        Date dateOfBirth = getDateOfBirthMandatory();
+        employeeDTO.setDateOfBirth(dateOfBirth);
+
+        Date dateOfJoin = getDateOfJoinMandatory(dateOfBirth);
+        employeeDTO.setDateOfJoin(dateOfJoin);
+
         employeeDTO.setPreviousExperience(getPreviousExperience(dateOfJoin, dateOfBirth));
         employeeDTO.setSpecialization(getSpecialization());
         employeeDTO.setTrainingExperience(getTrainingExperience(dateOfBirth));
         employeeDTO.setNoOfTrainee(getNoOfTrainee());
 
         try {
-            if (employeeServiceImpl.addTrainer(EmployeeMapper.dtoToEntity(employeeDTO))) {
+            if (employeeService.addTrainer(EmployeeMapper.dtoToEntity(employeeDTO))) {
                 System.out.println(ConstantUtil.INSERT_SUCCESS);
             } else {
                 System.out.println(ConstantUtil.INSERT_FAILED);
             }
         } catch (EmployeeException employeeException) {
-            log.severe(ConstantUtil.INSERT_ERROR + employeeException.toString());
+            log.error(ConstantUtil.INSERT_ERROR + employeeException.toString());
             System.err.println(ConstantUtil.INSERT_ERROR);
         }
     }
@@ -265,169 +257,58 @@ class EmployeeController {
      */
     private void updateTrainerById() {
         try{
-            if (!employeeServiceImpl.isTrainersEmpty()) {
-                EmployeeDTO employeeDTO = new EmployeeDTO();
-                Scanner scanner = new Scanner(System.in).useDelimiter("\n");
-                String dateOfBirth;
-                String dateOfJoin;
-                boolean isValidInput = true;
+            EmployeeDTO employeeDTO = new EmployeeDTO();
+            Scanner scanner = new Scanner(System.in).useDelimiter("\n");
+            boolean isValidInput = true;
 
-                System.out.print("Enter the Employee Id: ");
-                String employeeId = scanner.nextLine().trim();
-                if (employeeServiceImpl.isTrainerExist(employeeId)) {
-                    System.out.println("Please enter the value for corresponding fields!"
-                            + "\nIf you want to skip any field just hit the Enter button");
-                    do {
-                        System.out.print("Name                  : ");
-                        String name = scanner.nextLine();
-                        if (!name.isEmpty()) {
-                            if (StringUtil.isValidName(name)) {
-                                employeeDTO.setName(name);
-                                isValidInput = true;
-                            } else {
-                                System.out.println(ConstantUtil.INVALID_INPUT_MESSAGE);
-                                isValidInput = false;
-                            }
-                        } else {
-                            isValidInput = true;
-                        }
-                    } while (!isValidInput);
-
-                    do {
-                        System.out.print("Gender (Male, Female, Transgender): ");
-                        String gender = scanner.nextLine().toUpperCase();
-                        if (!gender.isEmpty()) {
-                            if (StringUtil.isValidGender(gender)) {
-                                Gender enumGender = Gender.valueOf(gender);
-                                employeeDTO.setGender(enumGender);
-                                isValidInput = true;
-                            } else {
-                                System.out.println(ConstantUtil.INVALID_INPUT_MESSAGE);
-                                isValidInput = false;
-                            }
-                        } else {
-                            isValidInput = true;
-                        }
-                    } while (!isValidInput);
-
-                    employeeDTO.setAddress(getAddress());
-                    employeeDTO.setDesignation(getDesignation());
-
-                    do {
-                        System.out.print("E-Mail Id             : ");
-                        String emailId = scanner.nextLine();
-                        if (!emailId.isEmpty()) {
-                            if (StringUtil.isValidEmailId(emailId)) {
-                                employeeDTO.setEmailId(emailId);
-                                isValidInput = true;
-                            } else {
-                                System.out.println(ConstantUtil.INVALID_INPUT_MESSAGE);
-                                isValidInput = false;
-                            }
-                        } else {
-                            isValidInput = true;
-                        }
-                    } while (!isValidInput);
-
-                    do {
-                        System.out.print("Mobile No             : ");
-                        String mobileNo = scanner.nextLine();
-                        if (!mobileNo.isEmpty()) {
-                            if (CommonUtil.isValidMobileNumber(mobileNo)) {
-                                employeeDTO.setMobileNo(mobileNo);
-                                isValidInput = true;
-                            } else {
-                                System.out.println(ConstantUtil.INVALID_INPUT_MESSAGE);
-                                isValidInput = false;
-                            }
-                        } else {
-                            isValidInput = true;
-                        }
-                    } while (!isValidInput);
-
-                    do {
-                        System.out.print("Date of Birth(DD/MM/YYYY): ");
-                        dateOfBirth = scanner.nextLine();
-                        if (!dateOfBirth.isEmpty()) {
-                            if (DateUtil.isValidDate(dateOfBirth) 
-                                  && DateUtil.calculateYears(dateOfBirth) >= ConstantUtil.MIN_AGE
-                                  && DateUtil.calculateYears(dateOfBirth) <= ConstantUtil.MAX_AGE) {
-                                try {
-                                    Date givenDateOfBirth = new SimpleDateFormat(ConstantUtil.DATE_FORMAT).parse(dateOfBirth);
-                                    employeeDTO.setDateOfBirth(givenDateOfBirth);
-                                    isValidInput = true;
-                                } catch (ParseException parseException) {
-                                    log.warning(parseException.toString());
-                                    System.err.println(ConstantUtil.INVALID_INPUT_MESSAGE);
-                                    isValidInput = false;
-                                }
-                            } else {
-                                System.out.println(ConstantUtil.INVALID_INPUT_MESSAGE);
-                                isValidInput = false;
-                            }
-                        } else {
-                            isValidInput = true;
-                        }
-                    } while (!isValidInput);
-
-                    if (dateOfBirth.isEmpty()) {
-                        dateOfBirth = new SimpleDateFormat(ConstantUtil.DATE_FORMAT)
-                                .format(EmployeeMapper.entityToDto(employeeServiceImpl
-                                .searchTrainerById(employeeId).get(0)).getDateOfBirth());
-                    }
-
-                    do {
-                        System.out.print("Date of Join (DD/MM/YYYY): ");
-                        dateOfJoin = scanner.nextLine();
-                        if (!dateOfJoin.isEmpty()) {
-                            if (DateUtil.isValidDateOfJoin(dateOfJoin, dateOfBirth)) {
-                                try {
-                                    Date givenDateOfJoin = new SimpleDateFormat(ConstantUtil.DATE_FORMAT).parse(dateOfJoin);
-                                    employeeDTO.setDateOfJoin(givenDateOfJoin);
-                                    isValidInput = true;
-                                } catch (ParseException parseException) {
-                                    log.warning(parseException.toString());
-                                    System.err.println(ConstantUtil.INVALID_INPUT_MESSAGE);
-                                    isValidInput = false;
-                                }
-                            } else {
-                                System.out.print(ConstantUtil.INVALID_INPUT_MESSAGE);
-                                isValidInput = false;
-                            }
-                        } else {
-                            isValidInput = true;
-                        }
-                    } while (!isValidInput);
-
-                    if (dateOfJoin.isEmpty()) {
-                        dateOfJoin = new SimpleDateFormat(ConstantUtil.DATE_FORMAT)
-                                .format(EmployeeMapper.entityToDto(employeeServiceImpl
-                                .searchTrainerById(employeeId).get(0)).getDateOfJoin());
-                    }
-
-                    employeeDTO.setPreviousExperience(getPreviousExperience(dateOfJoin, dateOfBirth));
-                    employeeDTO.setSpecialization(getSpecialization());
-                    employeeDTO.setTrainingExperience(getTrainingExperience(dateOfBirth));
-                    employeeDTO.setNoOfTrainee(getNoOfTrainee());
-
-                    try {
-                        if (employeeServiceImpl.updateTrainerById(employeeId, EmployeeMapper.dtoToEntity(employeeDTO))) {
-                            System.out.println(ConstantUtil.CHANGES_DONE);
-                        } else {
-                            System.out.println(ConstantUtil.CHANGES_FAILED);
-                        }
-                    } catch (EmployeeException employeeException) {
-                        log.severe(ConstantUtil.UPDATE_ERROR + employeeException.toString());
-                        System.err.println(ConstantUtil.UPDATE_ERROR);
-                    }
+            System.out.print("Enter the Employee Id: ");
+            String employeeId = scanner.nextLine().trim();
+            Employee updatableEmployee = employeeService.searchTrainerById(employeeId);
+            if (updatableEmployee != null) {
+                System.out.println("Please enter the value for corresponding fields!"
+                        + "\nIf you want to skip any field just hit the Enter button");
+                employeeDTO.setName(getName());
+                employeeDTO.setGender(getGender());
+                employeeDTO.setAddress(getAddress());
+                employeeDTO.setDesignation(getDesignation());
+                employeeDTO.setEmailId(getEmailId());
+                employeeDTO.setMobileNo(getMobileNo());
+                Date dateOfBirth = getDateOfBirth();
+                if (dateOfBirth != null) {
+                    employeeDTO.setDateOfBirth(dateOfBirth);
                 } else {
-                    System.out.println(ConstantUtil.NO_RECORD_FOR_ID);
+                    dateOfBirth = updatableEmployee.getDateOfBirth();
+                }
+
+                Date dateOfJoin = getDateOfJoin(dateOfBirth);
+                if (dateOfJoin != null) {
+                    employeeDTO.setDateOfJoin(dateOfJoin);
+                } else {
+                    dateOfJoin = updatableEmployee.getDateOfJoin();
+                }
+
+                employeeDTO.setPreviousExperience(getPreviousExperience(dateOfJoin, dateOfBirth));
+                employeeDTO.setSpecialization(getSpecialization());
+                employeeDTO.setTrainingExperience(getTrainingExperience(dateOfBirth));
+                employeeDTO.setNoOfTrainee(getNoOfTrainee());
+
+                try {
+                    Employee employee = employeeService.updateTrainer(EmployeeMapper.dtoToEntity(employeeDTO), updatableEmployee);
+                    if (employee != null) {
+                        System.out.println(ConstantUtil.CHANGES_DONE);
+                        System.out.println(EmployeeMapper.entityToDto(employee));
+                    } else {
+                        System.out.println(ConstantUtil.CHANGES_FAILED);
+                    }
+                } catch (EmployeeException employeeException) {
+                    log.error(ConstantUtil.UPDATE_ERROR + employeeException.toString());
+                    System.err.println(ConstantUtil.UPDATE_ERROR);
                 }
             } else {
-                System.out.println(ConstantUtil.NO_RECORDS);
+                System.out.println(ConstantUtil.NO_RECORD_FOR_ID);
             }
         } catch (EmployeeException employeeException) {
-            log.severe(ConstantUtil.UPDATE_ERROR + employeeException.toString());
+            log.error(ConstantUtil.UPDATE_ERROR + employeeException.toString());
             System.err.println(ConstantUtil.UPDATE_ERROR);
         }
     }
@@ -440,20 +321,17 @@ class EmployeeController {
      */
     private void searchTrainerById() {
         try {
-            if (!employeeServiceImpl.isTrainersEmpty()) {
-                Scanner scanner = new Scanner(System.in);
-                System.out.print("Enter the Employee Id: ");
-                String employeeId = scanner.nextLine().trim();
-                if (!employeeServiceImpl.searchTrainerById(employeeId).isEmpty()) {
-                    System.out.println(EmployeeMapper.entityToDto(employeeServiceImpl.searchTrainerById(employeeId).get(0)));
-                } else {
-                    System.out.println(ConstantUtil.NO_RECORD_FOR_ID);
-                }
+            Scanner scanner = new Scanner(System.in);
+            System.out.print("Enter the Employee Id: ");
+            String employeeId = scanner.nextLine().trim();
+            Employee employee = employeeService.searchTrainerById(employeeId);
+            if (employee != null) {
+                System.out.println(EmployeeMapper.entityToDto(employee));
             } else {
-                System.out.println(ConstantUtil.NO_RECORDS);
+                System.out.println(ConstantUtil.NO_RECORD_FOR_ID);
             }
         } catch (EmployeeException employeeException) {
-            log.severe(ConstantUtil.SEARCH_ERROR + employeeException.toString());
+            log.error(ConstantUtil.SEARCH_ERROR + employeeException.toString());
             System.err.println(ConstantUtil.SEARCH_ERROR);
         }
     }
@@ -465,16 +343,52 @@ class EmployeeController {
      *
      */
     private void showTrainers() {
+        Scanner scanner = new Scanner(System.in);
+        int startPosition = 0;
+        boolean stop = false;
+        int currentPage = 1;
         try {
-            if (employeeServiceImpl.isTrainersEmpty()){
-                System.out.println("There is no records to show. Please insert the record first!");
-            } else {
-                for (EmployeeDTO employee : EmployeeMapper.entityListToDtoList(employeeServiceImpl.getTrainers())) {
-                    System.out.println(employee);
+            int totalPage = employeeService.getTrainerPageCount();
+            while (!stop) {
+                List<Employee> employees = employeeService.getTrainers(startPosition);
+                if (totalPage != 0 && !employees.isEmpty()){
+                    System.out.println("Page Number: "+ currentPage);
+                    System.out.println("----------------------------"
+                                       +"---------------------");
+                    for (Employee employee : employees) {
+                        System.out.println(EmployeeMapper.entityToDto(employee));
+                    }
+                    System.out.println("----------------------------"
+                                       +"---------------------");
+                    System.out.println("\n1. Next \t2. Previous \t3. End");
+                    int givenOption = getNumber();
+                    if (givenOption == 1) {
+                        if (totalPage != currentPage) {
+                            currentPage++;
+                            startPosition += 5;
+                        } else {
+                            System.out.println("Your in last page!!");
+                            System.out.println("-------------------");
+                        }
+                    } else if (givenOption == 2) {
+                        if (currentPage != 1) {
+                            currentPage--;
+                            startPosition -= 5;
+                        } else {
+                            System.out.println("Your in first page!!");
+                            System.out.println("--------------------");
+                        }
+                    } else if (givenOption == 3) {
+                        stop = true;
+                    } else {
+                        System.out.println(ConstantUtil.INVALID_INPUT_MESSAGE);
+                    }
+                } else {
+                    System.out.println("There is no records to show. Please insert the record first!");
                 }
-            }
+            }        
         } catch (EmployeeException employeeException) {
-            log.severe(ConstantUtil.DISPLAY_ERROR + employeeException.toString());
+            log.error(ConstantUtil.DISPLAY_ERROR + employeeException.toString());
             System.err.println(ConstantUtil.DISPLAY_ERROR);
         }
     }
@@ -487,22 +401,16 @@ class EmployeeController {
      */
     private void deleteTrainerById() {
         try {
-            if (!employeeServiceImpl.isTrainersEmpty()) {
-                Scanner scanner = new Scanner(System.in);
-                System.out.print("Enter the Employee Id: ");
-                String employeeId = scanner.nextLine().trim();
-                if (employeeServiceImpl.isTrainerExist(employeeId)) {
-                    if (employeeServiceImpl.deleteTrainerById(employeeId)) {
-                        System.out.println(ConstantUtil.DELETE_SUCCESS);
-                    }
-                } else {
-                    System.out.println(ConstantUtil.NO_RECORD_FOR_ID);
-                }
+            Scanner scanner = new Scanner(System.in);
+            System.out.print("Enter the Employee Id: ");
+            String employeeId = scanner.nextLine().trim();
+            if (employeeService.deleteTrainerById(employeeId)) {
+                System.out.println(ConstantUtil.DELETE_SUCCESS);
             } else {
-                System.out.println(ConstantUtil.NO_RECORDS);
+                System.out.println(ConstantUtil.NO_RECORD_FOR_ID);
             }
         } catch (EmployeeException employeeException) {
-            log.severe(ConstantUtil.DELETE_ERROR + employeeException.toString());
+            log.error(ConstantUtil.DELETE_ERROR + employeeException.toString());
             System.err.println(ConstantUtil.DELETE_ERROR);
         }
     }
@@ -522,11 +430,11 @@ class EmployeeController {
         System.out.println("\nEnter the values for the Trainee: \n * These Fields are mandatory");
 
         try {
-            String id = employeeServiceImpl.generateEmployeeId();
+            String id = employeeService.generateEmployeeId();
             System.out.println("ID                    : " + id);
-            employeeDTO.setId(id);
+            employeeDTO.setEmployeeId(id);
         } catch (EmployeeException employeeException) {
-            log.severe(ConstantUtil.INSERT_ERROR + employeeException.toString());
+            log.error(ConstantUtil.INSERT_ERROR + employeeException.toString());
             System.err.println(ConstantUtil.INSERT_ERROR);
         }
 
@@ -534,35 +442,28 @@ class EmployeeController {
         employeeDTO.setGender(getGenderMandatory());
         employeeDTO.setAddress(getAddress());
         employeeDTO.setDesignation(getDesignation());
-        employeeDTO.setRole("Trainee");
         employeeDTO.setEmailId(getEmailIdMandatory());
         employeeDTO.setMobileNo(getMobileNoMandatory());
-        String dateOfBirth = getDateOfBirthMandatory();
-        try {
-            employeeDTO.setDateOfBirth(new SimpleDateFormat(ConstantUtil.DATE_FORMAT).parse(dateOfBirth));
-        } catch (ParseException parseException) {
-            log.warning(parseException.toString());
-        }
 
-        String dateOfJoin = getDateOfJoinMandatory(dateOfBirth);
-        try {
-            employeeDTO.setDateOfJoin(new SimpleDateFormat(ConstantUtil.DATE_FORMAT).parse(dateOfJoin));
-        } catch (ParseException parseException) {
-            log.warning(parseException.toString());
-        }
+        Date dateOfBirth = getDateOfBirthMandatory();
+        employeeDTO.setDateOfBirth(dateOfBirth);
+
+        Date dateOfJoin = getDateOfJoin(dateOfBirth);
+        employeeDTO.setDateOfJoin(dateOfJoin);
+
         employeeDTO.setPreviousExperience(getPreviousExperience(dateOfJoin, dateOfBirth));
-        employeeDTO.setTrainerName(getTrainerName());
+        employeeDTO.setTrainersName(getTrainersName());
         employeeDTO.setLearnedSkills(getLearnedSkills());
         employeeDTO.setTrainingPeriod(getTrainingPeriod());
 
         try {
-            if (employeeServiceImpl.addTrainee(EmployeeMapper.dtoToEntity(employeeDTO))) {
+            if (employeeService.addTrainee(EmployeeMapper.dtoToEntity(employeeDTO))) {
                 System.out.println(ConstantUtil.INSERT_SUCCESS);
             } else {
                 System.out.println(ConstantUtil.INSERT_FAILED);
             }
         } catch (EmployeeException employeeException) {
-            log.severe(ConstantUtil.INSERT_ERROR + employeeException.toString());
+            log.error(ConstantUtil.INSERT_ERROR + employeeException.toString());
             System.err.println(ConstantUtil.INSERT_ERROR);
         }
     }
@@ -576,168 +477,59 @@ class EmployeeController {
      */
     private void updateTraineeById() {
         try {
-            if (!employeeServiceImpl.isTraineesEmpty()) {
-                EmployeeDTO employeeDTO = new EmployeeDTO();
-                Scanner scanner = new Scanner(System.in).useDelimiter("\n");
-                String dateOfBirth;
-                String dateOfJoin;
-                boolean isValidInput = true;
+            EmployeeDTO employeeDTO = new EmployeeDTO();
+            Scanner scanner = new Scanner(System.in).useDelimiter("\n");
+            boolean isValidInput = true;
 
-                System.out.print("Enter the Employee Id: ");
-                String employeeId = scanner.nextLine().trim();
-
-                if (employeeServiceImpl.isTraineeExist(employeeId)) {
-                    System.out.println("Please enter the value for corresponding fields!"
-                             + "\nIf you want to skip any field just hit the Enter button");
-                    do {
-                        System.out.print("Name                  : ");
-                        String name = scanner.nextLine();
-                        if (!name.isEmpty()) {
-                            if (StringUtil.isValidName(name)) {
-                                employeeDTO.setName(name);
-                                isValidInput = true;
-                            } else {
-                                System.out.println(ConstantUtil.INVALID_INPUT_MESSAGE);
-                                isValidInput = false;
-                            }
-                        } else {
-                            isValidInput = true;
-                        }
-                    } while (!isValidInput);
-
-                    do {
-                        System.out.print("Gender (Male, Female, Transgender): ");
-                        String gender = scanner.nextLine().toUpperCase();
-                        if (!gender.isEmpty()) {
-                            if (StringUtil.isValidGender(gender)) {
-                                Gender enumGender = Gender.valueOf(gender);
-                                employeeDTO.setGender(enumGender);
-                                isValidInput = true;
-                            } else {
-                                System.out.println(ConstantUtil.INVALID_INPUT_MESSAGE);
-                                isValidInput = false;
-                            }
-                        } else {
-                        isValidInput = true;
-                        }
-                    } while (!isValidInput);
-
-                    employeeDTO.setAddress(getAddress());
-                    employeeDTO.setDesignation(getDesignation());
-
-                    do {
-                        System.out.print("E-Mail Id             : ");
-                        String emailId = scanner.nextLine();
-                        if (!emailId.isEmpty()) {
-                            if (StringUtil.isValidEmailId(emailId)) {
-                                employeeDTO.setEmailId(emailId);
-                                isValidInput = true;
-                            } else {
-                                System.out.println(ConstantUtil.INVALID_INPUT_MESSAGE);
-                                isValidInput = false;
-                            }
-                        } else {
-                            isValidInput = true;
-                        }
-                    } while (!isValidInput);
-
-                    do {
-                        System.out.print("Mobile No             : ");
-                        String mobileNo = scanner.nextLine();
-                        if (!mobileNo.isEmpty()) {
-                            if (CommonUtil.isValidMobileNumber(mobileNo)) {
-                                employeeDTO.setMobileNo(mobileNo);
-                                isValidInput = true;
-                            } else {
-                                System.out.println(ConstantUtil.INVALID_INPUT_MESSAGE);
-                                isValidInput = false;
-                            }
-                        } else {
-                            isValidInput = true;
-                        }
-                    } while (!isValidInput);
-
-                    do {
-                        System.out.print("Date of Birth(DD/MM/YYYY): ");
-                        dateOfBirth = scanner.nextLine();
-                        if (!dateOfBirth.isEmpty()) {
-                            if (DateUtil.isValidDate(dateOfBirth) 
-                                  && DateUtil.calculateYears(dateOfBirth) >= ConstantUtil.MIN_AGE
-                                  && DateUtil.calculateYears(dateOfBirth) <= ConstantUtil.MAX_AGE) {
-                                try {
-                                    Date givenDateOfBirth = new SimpleDateFormat(ConstantUtil.DATE_FORMAT).parse(dateOfBirth);
-                                    employeeDTO.setDateOfBirth(givenDateOfBirth);
-                                    isValidInput = true;
-                                } catch (ParseException parseException) {
-                                    System.err.println("Internal Error " + parseException.getMessage());
-                                    isValidInput = false;
-                                }
-                            } else {
-                            System.out.println(ConstantUtil.INVALID_INPUT_MESSAGE);
-                                isValidInput = false;
-                            }
-                        } else {
-                            isValidInput = true;
-                        }
-                    } while (!isValidInput);
-
-                    if (dateOfBirth.isEmpty()) {
-                            dateOfBirth = new SimpleDateFormat(ConstantUtil.DATE_FORMAT)
-                                .format(EmployeeMapper.entityToDto(employeeServiceImpl
-                                .searchTraineeById(employeeId).get(0)).getDateOfBirth());
-                    }
-
-                    do {
-                        System.out.print("Date of Join (DD/MM/YYYY): ");
-                        dateOfJoin = scanner.nextLine();
-                        if (!dateOfJoin.isEmpty()) {
-                            if (DateUtil.isValidDateOfJoin(dateOfJoin, dateOfBirth)) {
-                                try {
-                                    Date givenDateOfJoin = new SimpleDateFormat(ConstantUtil.DATE_FORMAT).parse(dateOfJoin);
-                                    employeeDTO.setDateOfJoin(givenDateOfJoin);
-                                    isValidInput = true;
-                                } catch (ParseException parseException) {
-                                    System.err.println("Internal Error " + parseException.getMessage());
-                                    isValidInput = false;
-                                }
-                            } else {
-                                System.out.print(ConstantUtil.INVALID_INPUT_MESSAGE);
-                                isValidInput = false;
-                            }
-                        } else {
-                            isValidInput = true;
-                        }
-                    } while (!isValidInput);
-
-                    if (dateOfJoin.isEmpty()) {
-                        dateOfJoin = new SimpleDateFormat(ConstantUtil.DATE_FORMAT)
-                                .format(EmployeeMapper.entityToDto(employeeServiceImpl
-                                .searchTraineeById(employeeId).get(0)).getDateOfJoin());
-                    }
-
-                    employeeDTO.setPreviousExperience(getPreviousExperience(dateOfJoin, dateOfBirth));
-                    employeeDTO.setTrainerName(getTrainerName());
-                    employeeDTO.setLearnedSkills(getLearnedSkills());
-                    employeeDTO.setTrainingPeriod(getTrainingPeriod());
-
-                    try {
-                        if (employeeServiceImpl.updateTraineeById(employeeId, EmployeeMapper.dtoToEntity(employeeDTO))) {
-                            System.out.println(ConstantUtil.CHANGES_DONE);
-                        } else {
-                            System.out.println(ConstantUtil.CHANGES_FAILED);
-                        }
-                    } catch (EmployeeException employeeException) {
-                        log.severe(ConstantUtil.UPDATE_ERROR + employeeException.toString());
-                        System.err.println(ConstantUtil.UPDATE_ERROR);
-                    }
+            System.out.print("Enter the Employee Id: ");
+            String employeeId = scanner.nextLine().trim();
+            Employee updatableEmployee = employeeService.searchTraineeById(employeeId);
+            if (updatableEmployee != null) {
+                System.out.println("Please enter the value for corresponding fields!"
+                         + "\nIf you want to skip any field just hit the Enter button");
+                employeeDTO.setName(getName());
+                employeeDTO.setGender(getGender());
+                employeeDTO.setAddress(getAddress());
+                employeeDTO.setDesignation(getDesignation());
+                employeeDTO.setEmailId(getEmailId());
+                employeeDTO.setMobileNo(getMobileNo());
+                    
+                Date dateOfBirth = getDateOfBirth();
+                if (dateOfBirth != null) {
+                    employeeDTO.setDateOfBirth(dateOfBirth);
                 } else {
-                System.out.println(ConstantUtil.NO_RECORD_FOR_ID);
+                    dateOfBirth = updatableEmployee.getDateOfBirth();
+                }
+
+                Date dateOfJoin = getDateOfJoin(dateOfBirth);
+                if (dateOfJoin != null) {
+                    employeeDTO.setDateOfJoin(dateOfJoin);
+                } else {
+                    dateOfJoin = updatableEmployee.getDateOfJoin();
+                }
+
+                employeeDTO.setPreviousExperience(getPreviousExperience(dateOfJoin, dateOfBirth));
+                employeeDTO.setTrainersName(getTrainersName());
+                employeeDTO.setLearnedSkills(getLearnedSkills());
+                employeeDTO.setTrainingPeriod(getTrainingPeriod());
+
+                try {
+                    Employee employee = employeeService.updateTrainee(EmployeeMapper.dtoToEntity(employeeDTO), updatableEmployee);
+                    if (employee != null) {
+                        System.out.println(ConstantUtil.CHANGES_DONE);
+                        System.out.println(EmployeeMapper.entityToDto(employee));
+                    } else {
+                        System.out.println(ConstantUtil.CHANGES_FAILED);
+                    }
+                } catch (EmployeeException employeeException) {
+                    log.error(ConstantUtil.UPDATE_ERROR + employeeException.toString());
+                    System.err.println(ConstantUtil.UPDATE_ERROR);
                 }
             } else {
-                System.out.println(ConstantUtil.NO_RECORDS);
+                System.out.println(ConstantUtil.NO_RECORD_FOR_ID);
             }
         } catch (EmployeeException employeeException) {
-            log.severe(ConstantUtil.UPDATE_ERROR + employeeException.toString());
+            log.error(ConstantUtil.UPDATE_ERROR + employeeException.toString());
             System.err.println(ConstantUtil.UPDATE_ERROR);
         }
     }
@@ -750,20 +542,17 @@ class EmployeeController {
      */
     private void searchTraineeById() {
         try{
-            if (!employeeServiceImpl.isTraineesEmpty()) {
-                Scanner scanner = new Scanner(System.in);
-                System.out.print("Enter the Employee Id: ");
-                String employeeId = scanner.nextLine().trim();
-                if (!employeeServiceImpl.searchTraineeById(employeeId).isEmpty()) {
-                    System.out.println(EmployeeMapper.entityToDto(employeeServiceImpl.searchTraineeById(employeeId).get(0)));
-                } else {
-                    System.out.println(ConstantUtil.NO_RECORD_FOR_ID);
-                }
+            Scanner scanner = new Scanner(System.in);
+            System.out.print("Enter the Employee Id: ");
+            String employeeId = scanner.nextLine().trim();
+            Employee employee = employeeService.searchTraineeById(employeeId);
+            if (employee != null) {
+                System.out.println(EmployeeMapper.entityToDto(employee));
             } else {
-                System.out.println(ConstantUtil.NO_RECORDS);
+                System.out.println(ConstantUtil.NO_RECORD_FOR_ID);
             }
         } catch(EmployeeException employeeException) {
-            log.severe(ConstantUtil.SEARCH_ERROR + employeeException.toString());
+            log.error(ConstantUtil.SEARCH_ERROR + employeeException.toString());
             System.err.println(ConstantUtil.SEARCH_ERROR);
         }
     }
@@ -775,16 +564,52 @@ class EmployeeController {
      *
      */
     private void showTrainees() {
+        Scanner scanner = new Scanner(System.in);
+        int startPosition = 0;
+        boolean stop = false;
+        int currentPage = 1;
         try {
-            if (employeeServiceImpl.isTraineesEmpty()){
-                System.out.println("There is no records to show. Please insert the record first!");
-            } else {
-                for (EmployeeDTO employee : EmployeeMapper.entityListToDtoList(employeeServiceImpl.getTrainees())) {
-                    System.out.println(employee);
+            int totalPage = employeeService.getTraineePageCount();
+            while (!stop) {
+                List<Employee> employees = employeeService.getTrainees(startPosition);
+                if (totalPage != 0 && !employees.isEmpty()){
+                    System.out.println("Page Number: "+ currentPage);
+                    System.out.println("----------------------------"
+                                       +"---------------------");
+                    for (Employee employee : employees) {
+                        System.out.println(EmployeeMapper.entityToDto(employee));
+                    }
+                    System.out.println("----------------------------"
+                                       +"---------------------");
+                    System.out.println("\n1. Next \t2. Previous \t3. End");
+                    int givenOption = getNumber();
+                    if (givenOption == 1) {
+                        if (totalPage != currentPage) {
+                            currentPage++;
+                            startPosition += 5;
+                        } else {
+                            System.out.println("Your in last page!!");
+                            System.out.println("-------------------");
+                        }
+                    } else if (givenOption == 2) {
+                        if (currentPage != 1) {
+                            currentPage--;
+                            startPosition -= 5;
+                        } else {
+                            System.out.println("Your in first page!!");
+                            System.out.println("--------------------");
+                        }
+                    } else if (givenOption == 3) {
+                        stop = true;
+                    } else {
+                        System.out.println(ConstantUtil.INVALID_INPUT_MESSAGE);
+                    }
+                } else {
+                    System.out.println("There is no records to show. Please insert the record first!");
                 }
-            }
+            }        
         } catch (EmployeeException employeeException) {
-            log.severe(ConstantUtil.DISPLAY_ERROR + employeeException.toString());
+            log.error(ConstantUtil.DISPLAY_ERROR + employeeException.toString());
             System.err.println(ConstantUtil.DISPLAY_ERROR);
         }
     }
@@ -797,24 +622,42 @@ class EmployeeController {
      */
     private void deleteTraineeById() {
         try {
-            if (!employeeServiceImpl.isTraineesEmpty()) {
-                Scanner scanner = new Scanner(System.in);
-                System.out.print("Enter the Employee Id: ");
-                String employeeId = scanner.nextLine().trim();
-                if (employeeServiceImpl.isTraineeExist(employeeId)) {
-                    if (employeeServiceImpl.deleteTraineeById(employeeId)) {
-                        System.out.println(ConstantUtil.DELETE_SUCCESS);
-                    }
-                } else {
-                    System.out.println(ConstantUtil.NO_RECORD_FOR_ID);
-                }
+            Scanner scanner = new Scanner(System.in);
+            System.out.print("Enter the Employee Id: ");
+            String employeeId = scanner.nextLine().trim();
+            if (employeeService.deleteTraineeById(employeeId)) {
+                System.out.println(ConstantUtil.DELETE_SUCCESS);
             } else {
-                System.out.println(ConstantUtil.NO_RECORDS);
+                System.out.println(ConstantUtil.NO_RECORD_FOR_ID);
             }
         } catch (EmployeeException employeeException) {
-            log.severe(ConstantUtil.DELETE_ERROR + employeeException.toString());
+            log.error(ConstantUtil.DELETE_ERROR + employeeException.toString());
             System.err.println(ConstantUtil.DELETE_ERROR);
         }
+    }
+
+    /**
+     * <p>
+     * This method is used to get the numeric value form the console.
+     * </p>
+     *
+     * @return givenNumeber as int
+     */
+    private int getNumber() {
+        Scanner scanner = new Scanner(System.in);
+        boolean validInput = false;
+        int givenNumber = 0;
+        do {
+            String number = scanner.nextLine().trim();
+            if (CommonUtil.isNumeric(number)) {
+                givenNumber = Integer.parseInt(number);
+                validInput = true;
+            } else {
+                System.err.println(ConstantUtil.INVALID_INPUT_MESSAGE);
+                validInput = false;
+            }
+        } while (!validInput);
+        return givenNumber;
     }
 
     /**
@@ -855,7 +698,7 @@ class EmployeeController {
         boolean isValidInput = false;
         Gender enumGender = null;
         do {
-            System.out.print("Gender*(Male, Female, Transgender): ");
+            System.out.print("Gender*(Male, Female, Others): ");
             String gender = scanner.nextLine().toUpperCase();
             if (StringUtil.isValidGender(gender)) {
                 enumGender = Gender.valueOf(gender);
@@ -923,25 +766,30 @@ class EmployeeController {
      * </p>
      *
      * @return Date
-     *     return the givenDateOfBirth as string.
+     *     return the givenDateOfBirth as Date.
      */
-    private String getDateOfBirthMandatory() {
+    private Date getDateOfBirthMandatory() {
         Scanner scanner = new Scanner(System.in);
         boolean isValidInput = false;
-        String dateOfBirth;
+        Date givenDateOfBirth = null;
         do {
             System.out.print("Date of Birth*(DD/MM/YYYY): ");
-            dateOfBirth = scanner.nextLine();
-            if (DateUtil.isValidDate(dateOfBirth) 
-                    && DateUtil.calculateYears(dateOfBirth) >= ConstantUtil.MIN_AGE
-                    && DateUtil.calculateYears(dateOfBirth) <= ConstantUtil.MAX_AGE) {
+            String dateOfBirth = scanner.nextLine();
+            try {
+                givenDateOfBirth = DateUtil.checkValidDate(dateOfBirth);
+                int age = DateUtil.calculateYears(givenDateOfBirth);
+                if (age >= ConstantUtil.MIN_AGE && age <= ConstantUtil.MAX_AGE) {
                 isValidInput = true;
-            } else {
+                } else {
+                    System.out.println(ConstantUtil.INVALID_INPUT_MESSAGE);
+                    isValidInput = false;
+                }
+            } catch (EmployeeException employeeException) {
                 System.out.println(ConstantUtil.INVALID_INPUT_MESSAGE);
                 isValidInput = false;
             }
         } while (!isValidInput);
-        return dateOfBirth;
+        return givenDateOfBirth;
     }
 
     /**
@@ -950,23 +798,85 @@ class EmployeeController {
      * </p>
      *
      * @return Date
-     *     return the givenDataOfJoin as String.
+     *     return the givenDataOfJoin as Date.
      */
-    private String getDateOfJoinMandatory(String dateOfBirth) {
+    private Date getDateOfJoinMandatory(Date dateOfBirth) {
         Scanner scanner = new Scanner(System.in);
         boolean isValidInput = false;
-        String dateOfJoin;
+        Date validDateOfJoin = null;
         do {
             System.out.print("Date of Join*(DD/MM/YYYY): ");
-            dateOfJoin = scanner.nextLine();
-            if (DateUtil.isValidDateOfJoin(dateOfJoin, dateOfBirth)) {
+            String dateOfJoin = scanner.nextLine();
+            try {
+                Date givenDateOfJoin = DateUtil.checkValidDate(dateOfJoin);
+                validDateOfJoin = DateUtil.checkValidDateOfJoin(givenDateOfJoin, dateOfBirth);
                 isValidInput = true;
-            } else {
+            } catch (EmployeeException employeeException) {
+                log.warn(employeeException);
                 System.out.print(ConstantUtil.INVALID_INPUT_MESSAGE);
                 isValidInput = false;
             }
         } while (!isValidInput);
-        return dateOfJoin;
+        return validDateOfJoin;
+    }
+
+    /**
+     * <p>
+     * This method is used read the name from user.
+     * </p>
+     *
+     * @return String
+     *     return the name as string.
+     */
+    private String getName() {
+        Scanner scanner = new Scanner(System.in);
+        boolean isValidInput = false;
+        String name;
+        do {
+            System.out.print("Name                  : ");
+            name = scanner.nextLine();
+            if (!name.isEmpty()) {
+                if (StringUtil.isValidName(name)) {
+                    isValidInput = true;
+                } else {
+                    System.out.println(ConstantUtil.INVALID_INPUT_MESSAGE);
+                    isValidInput = false;
+                }
+            } else {
+                isValidInput = true;
+            }
+        } while (!isValidInput);
+        return name;
+    }
+
+    /**
+     * <p>
+     * This method is used read the gender from user.
+     * </p>
+     *
+     * @return Gender
+     *     return the enumGender as Gender.
+     */
+    private Gender getGender() {
+        Scanner scanner = new Scanner(System.in);
+        boolean isValidInput = false;
+        Gender enumGender = null;
+        do {
+            System.out.print("Gender (Male, Female, Others): ");
+            String gender = scanner.nextLine().toUpperCase();
+            if (!gender.isEmpty()) {
+                if (StringUtil.isValidGender(gender)) {
+                    enumGender = Gender.valueOf(gender);
+                    isValidInput = true;
+                } else {
+                    System.out.println(ConstantUtil.INVALID_INPUT_MESSAGE);
+                    isValidInput = false;
+                }
+            } else {
+                isValidInput = true;
+            }
+        } while (!isValidInput);
+        return enumGender;
     }
 
     /**
@@ -1030,13 +940,140 @@ class EmployeeController {
 
     /**
      * <p>
+     * This method is used read the email-id from user.
+     * </p>
+     *
+     * @return String
+     *     return the emailId as string.
+     */
+    private String getEmailId() {
+        Scanner scanner = new Scanner(System.in);
+        boolean isValidInput = false;
+        String emailId;
+        do {
+            System.out.print("E-Mail Id             : ");
+            emailId = scanner.nextLine();
+            if (!emailId.isEmpty()) {
+                if (StringUtil.isValidEmailId(emailId)) {
+                    isValidInput = true;
+                } else {
+                    System.out.println(ConstantUtil.INVALID_INPUT_MESSAGE);
+                    isValidInput = false;
+                }
+            } else {
+                isValidInput = true;
+            }
+        } while (!isValidInput);
+        return emailId;
+    }
+
+    /**
+     * <p>
+     * This method is used read the mobile no from user.
+     * </p>
+     *
+     * @return String
+     *     return the mobileNo as string.
+     */
+    private String getMobileNo() {
+        Scanner scanner = new Scanner(System.in);
+        boolean isValidInput = false;
+        String mobileNo;
+        do {
+            System.out.print("Mobile No             : ");
+            mobileNo = scanner.nextLine();
+            if (!mobileNo.isEmpty()) {
+                if (CommonUtil.isValidMobileNumber(mobileNo)) {
+                    isValidInput = true;
+                } else {
+                    System.out.println(ConstantUtil.INVALID_INPUT_MESSAGE);
+                    isValidInput = false;
+                }
+            } else {
+                isValidInput = true;
+            }
+        } while (!isValidInput);
+        return mobileNo;
+    }
+
+    /**
+     * <p>
+     * This method is used read the date of birth from user.
+     * </p>
+     *
+     * @return Date
+     *     return the givenDateOfBirth as Date.
+     */
+    private Date getDateOfBirth() {
+        Scanner scanner = new Scanner(System.in);
+        boolean isValidInput = false;
+        Date givenDateOfBirth = null;
+        do {
+            System.out.print("Date of Birth(DD/MM/YYYY): ");
+            String dateOfBirth = scanner.nextLine();
+            if (!dateOfBirth.isEmpty()) {
+                try {
+                    givenDateOfBirth = DateUtil.checkValidDate(dateOfBirth);
+                    int age = DateUtil.calculateYears(givenDateOfBirth);
+                    if (age >= ConstantUtil.MIN_AGE && age <= ConstantUtil.MAX_AGE) {
+                        isValidInput = true;
+                    } else {
+                        System.out.println(ConstantUtil.INVALID_INPUT_MESSAGE);
+                        isValidInput = false;
+                    }
+                } catch (EmployeeException employeeException) {
+                    System.out.println(ConstantUtil.INVALID_INPUT_MESSAGE);
+                    isValidInput = false;
+                }
+            } else {
+                isValidInput = true;
+            }
+        } while (!isValidInput);
+        return givenDateOfBirth;
+    }
+
+    /**
+     * <p>
+     * This method is used read the date of join from user.
+     * </p>
+     *
+     * @return Date
+     *     return the givenDataOfJoin as String.
+     */
+    private Date getDateOfJoin(Date dateOfBirth) {
+        Scanner scanner = new Scanner(System.in);
+        boolean isValidInput = false;
+        Date validDateOfJoin = null;
+        do {
+            System.out.print("Date of Join (DD/MM/YYYY): ");
+            String dateOfJoin = scanner.nextLine();
+            if (!dateOfJoin.isEmpty()) {
+                try {
+                    Date givenDateOfJoin = DateUtil.checkValidDate(dateOfJoin);
+                    validDateOfJoin = DateUtil.checkValidDateOfJoin(givenDateOfJoin, dateOfBirth);
+                    isValidInput = true;
+                } catch (EmployeeException employeeException) {
+                    log.warn(employeeException);
+                    System.out.print(ConstantUtil.INVALID_INPUT_MESSAGE);
+                    isValidInput = false;
+                }
+            } else {
+                isValidInput = true;
+            }
+        } while (!isValidInput);
+        return validDateOfJoin;
+    }
+
+
+    /**
+     * <p>
      * This method is used read the previous experience from user.
      * </p>
      *
      * @return float
      *     return the previousExperience as float.
      */
-    private float getPreviousExperience(String dateOfJoin, String dateOfBirth) {
+    private float getPreviousExperience(Date dateOfJoin, Date dateOfBirth) {
         Scanner scanner = new Scanner(System.in).useDelimiter("\n");
         boolean isValidInput = true;
         float givenPreviousExperience = 0;
@@ -1046,19 +1083,16 @@ class EmployeeController {
             if (!previousExperience.isEmpty()) {
                 try {
                     givenPreviousExperience = Float.parseFloat(previousExperience);
-                    isValidInput = (givenPreviousExperience >= 0.0 && givenPreviousExperience 
-                                    <= (DateUtil.calculateYearsMonths(dateOfBirth) 
-                                    - DateUtil.calculateYearsMonths(dateOfJoin)) 
-                                    - ((float)ConstantUtil.MIN_AGE));
+                    float age = DateUtil.calculateYearsMonths(dateOfBirth);
+                    float experience = DateUtil.calculateYearsMonths(dateOfJoin);
+                    isValidInput = givenPreviousExperience >= 0.0 && givenPreviousExperience 
+                                    <= (age - experience) 
+                                    - ((float)ConstantUtil.MIN_AGE);
                     if (!isValidInput) {
-                        throw new ExperienceException("Enter valid Experience");
+                        System.err.println(ConstantUtil.INVALID_INPUT_MESSAGE);
                     }
-                } catch (ExperienceException experienceException) {
-                    log.warning(experienceException.toString());
-                    System.err.println(ConstantUtil.INVALID_INPUT_MESSAGE);
-                    isValidInput = false;  
-                } catch (NumberFormatException numberFormatException) {
-                    log.warning(numberFormatException.toString());
+                } catch (NumberFormatException | EmployeeException exception) {
+                    log.warn(exception.toString());
                     System.err.println(ConstantUtil.INVALID_INPUT_MESSAGE);
                     isValidInput = false;
                 }
@@ -1108,7 +1142,7 @@ class EmployeeController {
      * @return float
      *     return the givenTrainingExperience as float.
      */
-    private float getTrainingExperience(String dateOfBirth) {
+    private float getTrainingExperience(Date dateOfBirth) {
         Scanner scanner = new Scanner(System.in).useDelimiter("\n");
         boolean isValidInput = true;
         float givenTrainingExperience = 0;
@@ -1118,18 +1152,15 @@ class EmployeeController {
             if (!trainingExperience.isEmpty()) {
                 try {
                     givenTrainingExperience = Float.parseFloat(trainingExperience);
+                    int age = DateUtil.calculateYears(dateOfBirth);
                     isValidInput = (givenTrainingExperience >= 0 && givenTrainingExperience 
-                            <= ((float) DateUtil.calculateYears(dateOfBirth) - ConstantUtil.MIN_AGE));
+                            <= ((float) age - ConstantUtil.MIN_AGE));
                     if (!isValidInput) {
                         givenTrainingExperience = 0;
-                        throw new ExperienceException("Enter Valid Experience");
+                        System.err.println(ConstantUtil.INVALID_INPUT_MESSAGE);
                     }
-                } catch (ExperienceException experienceException) {
-                    log.warning(experienceException.toString());
-                    System.err.println(ConstantUtil.INVALID_INPUT_MESSAGE);
-                    isValidInput = false;  
-                } catch (NumberFormatException numberFormatException) {
-                    log.warning(numberFormatException.toString());
+                } catch (NumberFormatException | EmployeeException exception) {
+                    log.warn(exception.toString());
                     System.err.println(ConstantUtil.INVALID_INPUT_MESSAGE);
                     isValidInput = false;
                 }
@@ -1166,7 +1197,7 @@ class EmployeeController {
                         System.out.println(ConstantUtil.INVALID_INPUT_MESSAGE);
                     }
                 } catch (NumberFormatException numberFormatException) {
-                    log.warning(numberFormatException.toString());
+                    log.warn(numberFormatException.toString());
                     System.err.println(ConstantUtil.INVALID_INPUT_MESSAGE);
                     isValidInput = false;
                 }
@@ -1185,17 +1216,17 @@ class EmployeeController {
      * @return List<String>
      *     return the givenTrainerName as List<String>.
      */
-    private List<String> getTrainerName() {
+    private List<String> getTrainersName() {
         Scanner scanner = new Scanner(System.in).useDelimiter("\n");
         boolean isValidInput = true;
-        List<String> givenTrainerName = new ArrayList<String>();
+        List<String> givenTrainersName = new ArrayList<String>();
         do {
             System.out.print("Trainer name          : ");
-            String trainerName = scanner.nextLine();
-            if (!trainerName.isEmpty()) {
-                if (StringUtil.isValidWord(trainerName)) {
+            String trainersName = scanner.nextLine();
+            if (!trainersName.isEmpty()) {
+                if (StringUtil.isValidWord(trainersName)) {
                     isValidInput = true;
-                    givenTrainerName = new ArrayList<String>(Arrays.asList(trainerName.split(", ")));
+                    givenTrainersName = new ArrayList<String>(Arrays.asList(trainersName.split(", ")));
                 } else {
                     System.out.println(ConstantUtil.INVALID_INPUT_MESSAGE);
                     isValidInput = false;
@@ -1204,7 +1235,7 @@ class EmployeeController {
                 isValidInput = true;
             }
         } while (!isValidInput);
-        return givenTrainerName;
+        return givenTrainersName;
     }
 
     /**
@@ -1252,7 +1283,7 @@ class EmployeeController {
                         System.out.println(ConstantUtil.INVALID_INPUT_MESSAGE);
                     }
                 } catch (NumberFormatException numberFormatException) {
-                    log.warning(numberFormatException.toString());
+                    log.warn(numberFormatException.toString());
                     System.err.println(ConstantUtil.INVALID_INPUT_MESSAGE);
                     isValidInput = false;
                 }

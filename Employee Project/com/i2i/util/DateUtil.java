@@ -8,6 +8,12 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.Date;
+import java.time.ZoneId;
+
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+
+import com.i2i.exception.EmployeeException;
 
 /**
  * The DateUtil class contains commonly used date manipulating
@@ -18,38 +24,32 @@ import java.util.Date;
  * @version  1.0 10 Aug 2022
  */ 
 public class DateUtil {
-
+    private static Logger log = LogManager.getLogger();
     /**
      * <p>
      * Get the date and calculate the difference years
      * between the current date.
      * </p>
      *
-     * (e.g): date = "10/08/2020", currentDate = 10/08/2022 return 2
+     * (e.g): date = 10/08/2020, currentDate = 10/08/2022 return 2
      *
-     * @param String date
+     * @param Date date
      *        for which the date needs to be calculated.
      * @return the integer value.
      *
+     * @throws EmployeeExcepiton
      */
-    public static int calculateYears(String date) {
-        if (DateUtil.isValidDate(date)) {
-            try {
-                Date givenDate = new SimpleDateFormat("dd/MM/yyyy").parse(date); 
-                SimpleDateFormat simpleDateFormater = new SimpleDateFormat("yyyy-MM-dd");
-                LocalDate formatGivenDate = LocalDate.parse(simpleDateFormater.format(givenDate));
-                LocalDate currentDate = LocalDate.now();
-
-                if ((givenDate != null) && (currentDate != null)) {
-                    return Period.between(formatGivenDate, currentDate).getYears();
-                } else {
-                    return 0;
-                }
-            } catch (ParseException exception) {
-                return 0;
+    public static int calculateYears(Date date) throws EmployeeException {
+        if (date != null) {
+            LocalDate formatGivenDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            LocalDate currentDate = LocalDate.now();
+            if (currentDate != null) {
+                return Period.between(formatGivenDate, currentDate).getYears();
+            } else {
+                throw new EmployeeException("Current Date is null");
             }
         } else {
-            return 0;
+            throw new EmployeeException("Given Date is null");
         }
     }
 
@@ -59,35 +59,29 @@ public class DateUtil {
      * years and months between the current date.
      * </p>
      * 
-     * (e.g): date = "10/06/2020", currentDate = 10/08/2022 return 2.2
+     * (e.g): date = 10/06/2020, currentDate = 10/08/2022 return 2.2
      *
-     * @param String date
+     * @param Date date
      *        for which the date needs to be calculated.
      * @return float value.
      *
-     * @throws ParseException if date contains alphabets or empty.
+     * @throws EmployeeException if date is null.
      */
-    public static Float calculateYearsMonths(String date) {
+    public static Float calculateYearsMonths(Date date) throws EmployeeException {
         DecimalFormat decimalFormat = new DecimalFormat("#.#");
         decimalFormat.setRoundingMode(RoundingMode.FLOOR);
 
-        if (DateUtil.isValidDate(date)) {
-            try {
-                Date givenDate = new SimpleDateFormat("dd/MM/yyyy").parse(date); 
-                SimpleDateFormat simpleDateFormater = new SimpleDateFormat("yyyy-MM-dd");
-                LocalDate formatGivenDate = LocalDate.parse(simpleDateFormater.format(givenDate));
-                LocalDate currentDate = LocalDate.now();
+        if (date != null) {
+            LocalDate formatGivenDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            LocalDate currentDate = LocalDate.now();
 
-                if ((givenDate != null) && (currentDate != null)) {
-                    return (Period.between(formatGivenDate, currentDate).getYears() + Float.parseFloat(decimalFormat.format(Period.between(formatGivenDate, currentDate).getMonths() * 0.08)));
-                } else {
-                    return (float)0;
-                }
-            } catch (ParseException exception) {
-                return (float)0;
+            if (currentDate != null) {
+                return (Period.between(formatGivenDate, currentDate).getYears() + Float.parseFloat(decimalFormat.format(Period.between(formatGivenDate, currentDate).getMonths() * 0.08)));
+            } else {
+                throw new EmployeeException("Current Date is null");
             }
         } else {
-            return (float)0;
+            throw new EmployeeException("Given Date is null");
         }
     }
 
@@ -102,21 +96,24 @@ public class DateUtil {
      *
      * @param String date
      *        for which the date needs to be validated.
-     * @return boolean true if the condition satisfied otherwise false.
+     * @return Date if the given date is valid.
+     *
+     * @throws EmployeeException
      */
-    public static boolean isValidDate(String date) {
+    public static Date checkValidDate(String date) throws EmployeeException {
         for (int index = 1; index < date.length(); index++) {
             if (!(date.length() == 10 && date.charAt(index) >= 47 && date.charAt(index) <= 57)) {
-                return false;
+                throw new EmployeeException("Given Date is invalid!!");
             }
         }
         try {
             DateFormat formatDate = new SimpleDateFormat("dd/MM/yyyy");
             formatDate.setLenient(false);
-            formatDate.parse(date);
-            return true;
-        } catch (ParseException exception) {
-            return false;
+            Date validDate = formatDate.parse(date);
+            return validDate;
+        } catch (ParseException parseException) {
+            log.warn(parseException);
+            throw new EmployeeException("Given Date is invalid!!");
         }
     }
 
@@ -127,40 +124,33 @@ public class DateUtil {
      * of the birth date.
      * </p>
      *
-     * (e.g): joinDate = "12/12/2018", birthDate = "12/12/2000", return true
-     * (e.g): joinDate = "12/12/2017", birthDate = "12/12/2000", return false
+     * (e.g): joinDate = 12/12/2018, birthDate = 12/12/2000, return true
+     * (e.g): joinDate = 12/12/2017, birthDate = 12/12/2000, return false
      *
-     * @param String date
+     * @param Date joinDate
+     *        for which the date needs to be validated.
+     * @param Date birthDate
      *        for which the date needs to be validated.
      * @return boolean true if the condition satisfied otherwise false.
      */
-    public static boolean isValidDateOfJoin(String joinDate, String birthDate) {
-        try {
-            if (DateUtil.isValidDate(joinDate) && DateUtil.isValidDate(birthDate)) {
-                SimpleDateFormat simpleDateFormater = new SimpleDateFormat("yyyy-MM-dd");
+    public static Date checkValidDateOfJoin(Date joinDate, Date birthDate) throws EmployeeException {
+        if (joinDate != null && birthDate != null) {
+            LocalDate formatGivenJoinDate = joinDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            LocalDate formatGivenBirthDate = birthDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            formatGivenBirthDate = formatGivenBirthDate.plusYears(18);
 
-                Date givenJoinDate = new SimpleDateFormat("dd/MM/yyyy").parse(joinDate); 
-                LocalDate formatGivenJoinDate = LocalDate.parse(simpleDateFormater.format(givenJoinDate));
-
-                Date givenBirthDate = new SimpleDateFormat("dd/MM/yyyy").parse(birthDate); 
-                LocalDate formatGivenBirthDate = LocalDate.parse(simpleDateFormater.format(givenBirthDate));
-                formatGivenBirthDate = formatGivenBirthDate.plusYears(18);
-
-                LocalDate currentDate = LocalDate.now();
-                if (formatGivenJoinDate.compareTo(formatGivenBirthDate) >= 0) {
-                    if (formatGivenJoinDate.compareTo(currentDate) <= 0) {
-                        return true;
-                    } else {
-                        return false;
-                    }
+            LocalDate currentDate = LocalDate.now();
+            if (formatGivenJoinDate.compareTo(formatGivenBirthDate) >= 0) {
+                if (formatGivenJoinDate.compareTo(currentDate) <= 0) {
+                    return joinDate;
                 } else {
-                    return false;
+                throw new EmployeeException("Given Date is invalid");
                 }
             } else {
-                return false;
+                throw new EmployeeException("Given Date is invalid");
             }
-        } catch (ParseException exception) {
-            return false;
+        } else {
+            throw new EmployeeException("Given Date is null");
         }
     }
 }

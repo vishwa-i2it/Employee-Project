@@ -3,11 +3,15 @@ package com.i2i.mapper;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.HashSet;
 import java.util.Map;
 
 import com.i2i.dto.EmployeeDTO;
 import com.i2i.model.Employee;
+import com.i2i.model.Role;
 import com.i2i.util.DateUtil;
+import com.i2i.exception.EmployeeException;
 
 /** 
  * The Mapper class contains the following methods 
@@ -30,12 +34,11 @@ public class EmployeeMapper {
      */
     public static Employee dtoToEntity(EmployeeDTO employeeDTO) {
         Employee employee = new Employee();
-        employee.setId(employeeDTO.getId());
+        employee.setEmployeeId(employeeDTO.getEmployeeId());
         employee.setName(employeeDTO.getName());
         employee.setGender(employeeDTO.getGender());
         employee.setAddress(employeeDTO.getAddress());
         employee.setDesignation(employeeDTO.getDesignation());
-        employee.setRole(employeeDTO.getRole());
         employee.setEmailId(employeeDTO.getEmailId());
         employee.setMobileNo(employeeDTO.getMobileNo());
         employee.setDateOfBirth(employeeDTO.getDateOfBirth());
@@ -44,7 +47,39 @@ public class EmployeeMapper {
         employee.setSpecialization(employeeDTO.getSpecialization());
         employee.setTrainingExperience(employeeDTO.getTrainingExperience());
         employee.setNoOfTrainee(employeeDTO.getNoOfTrainee());
-        employee.setTrainerName(employeeDTO.getTrainerName());
+        employee.setTrainersName(employeeDTO.getTrainersName());
+        employee.setLearnedSkills(employeeDTO.getLearnedSkills());
+        employee.setTrainingPeriod(employeeDTO.getTrainingPeriod());
+        return employee;
+    }
+
+    /**
+     * <p> This method is used to convert the DTO object 
+     *  to Entity object
+     * </p>
+     *
+     * @param EmployeeDTO employeeDTO 
+     *         For which employeeDTO(object) needs to convert as employee(object).
+     * @param Employee employee 
+     *         For which employee(object) needs to loaded from employeeDTO(object).
+     * @return Employee
+               Return as employee object.
+     */
+    public static Employee dtoToEntity(EmployeeDTO employeeDTO, Employee employee) {
+        employee.setEmployeeId(employeeDTO.getEmployeeId());
+        employee.setName(employeeDTO.getName());
+        employee.setGender(employeeDTO.getGender());
+        employee.setAddress(employeeDTO.getAddress());
+        employee.setDesignation(employeeDTO.getDesignation());
+        employee.setEmailId(employeeDTO.getEmailId());
+        employee.setMobileNo(employeeDTO.getMobileNo());
+        employee.setDateOfBirth(employeeDTO.getDateOfBirth());
+        employee.setDateOfJoin(employeeDTO.getDateOfJoin());
+        employee.setPreviousExperience(employeeDTO.getPreviousExperience());
+        employee.setSpecialization(employeeDTO.getSpecialization());
+        employee.setTrainingExperience(employeeDTO.getTrainingExperience());
+        employee.setNoOfTrainee(employeeDTO.getNoOfTrainee());
+        employee.setTrainersName(employeeDTO.getTrainersName());
         employee.setLearnedSkills(employeeDTO.getLearnedSkills());
         employee.setTrainingPeriod(employeeDTO.getTrainingPeriod());
         return employee;
@@ -60,27 +95,28 @@ public class EmployeeMapper {
      * @return EmployeeDTO
                Return as employeeDTO object.
      */
-    public static EmployeeDTO entityToDto(Employee employee) {
-        SimpleDateFormat dateFormater = new SimpleDateFormat("dd/MM/yyyy");
+    public static EmployeeDTO entityToDto(Employee employee) throws EmployeeException {
         EmployeeDTO employeeDTO = new EmployeeDTO();
-        employeeDTO.setId(employee.getId());
+        employeeDTO.setEmployeeId(employee.getEmployeeId());
         employeeDTO.setName(employee.getName());
         employeeDTO.setGender(employee.getGender());
-        employeeDTO.setAge(DateUtil.calculateYears(dateFormater.format(employee.getDateOfBirth())));
+        employeeDTO.setAge(DateUtil.calculateYears(employee.getDateOfBirth()));
         employeeDTO.setAddress(employee.getAddress());
         employeeDTO.setDesignation(employee.getDesignation());
-        employeeDTO.setRole(employee.getRole());
+        for(Role role : employee.getRoles()) {
+            employeeDTO.setRole(role.getRole());
+        }
         employeeDTO.setEmailId(employee.getEmailId());
         employeeDTO.setMobileNo(employee.getMobileNo());
         employeeDTO.setDateOfBirth(employee.getDateOfBirth());
         employeeDTO.setDateOfJoin(employee.getDateOfJoin());
         employeeDTO.setExperience(employee.getPreviousExperience() 
-                + DateUtil.calculateYearsMonths(dateFormater.format(employee.getDateOfJoin())));
+                + DateUtil.calculateYearsMonths(employee.getDateOfJoin()));
         
         employeeDTO.setSpecialization(employee.getSpecialization());
         employeeDTO.setTrainingExperience(employee.getTrainingExperience());
         employeeDTO.setNoOfTrainee(employee.getNoOfTrainee());
-        employeeDTO.setTrainerName(employee.getTrainerName());
+        employeeDTO.setTrainersName(employee.getTrainersName());
         employeeDTO.setLearnedSkills(employee.getLearnedSkills());
         employeeDTO.setTrainingPeriod(employee.getTrainingPeriod());
         return employeeDTO;
@@ -96,7 +132,7 @@ public class EmployeeMapper {
      * @return List<EmployeeDTO>
                Return as employeeDTO objects.
      */
-    public static List<EmployeeDTO> entityListToDtoList(List<Employee> employees) {
+    public static List<EmployeeDTO> entityListToDtoList(List<Employee> employees) throws EmployeeException {
         List<EmployeeDTO> employeeDTOList = new ArrayList<EmployeeDTO>();
         for(Employee employee : employees){
                 employeeDTOList.add(EmployeeMapper.entityToDto(employee));

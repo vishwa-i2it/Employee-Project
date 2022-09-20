@@ -10,6 +10,7 @@ package com.i2i.util;
 public class ConstantUtil {
     public static final String TRAINER = "TRAINER";
     public static final String TRAINEE = "TRAINEE";
+    public static final String MAIN_MENU = "Back to Main menu";
     public static final String ID_NOT_FOUND = "Id not found exception";
     public static final String EMPTY_REOCRDS = "Empty reocrds exception";
     public static final String INPUT_RANGE = "Enter the value between 1 and 3";
@@ -35,4 +36,6 @@ public class ConstantUtil {
     public static final int MAX_ADDRESS_LENGTH = 50;
     public static final int MIN_WORDS_LENGTH = 1;
     public static final int MAX_WORDS_LENGTH = 40;
+    public static final int TRAINER_ROLE_ID = 1;
+    public static final int TRAINEE_ROLE_ID = 2;
 }

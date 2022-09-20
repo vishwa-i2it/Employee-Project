@@ -16,7 +16,7 @@ import com.i2i.enumerator.Gender;
  * @version  1.0 10 Aug 2022
  */ 
 public class EmployeeDTO {
-    private String id;
+    private String employeeId;
     private String name;
     private Gender gender;
     private String address;
@@ -32,22 +32,22 @@ public class EmployeeDTO {
     private String specialization;
     private float trainingExperience;
     private int noOfTrainee;
-    private List<String> trainerName;
+    private List<String> trainersName;
     private Set<String> learnedSkills;
     private int trainingPeriod;
     
     public EmployeeDTO() { }
     
-    public EmployeeDTO(String id, String name, Gender gender,
+    public EmployeeDTO(String employeeId, String name, Gender gender,
                        String address, String designation, 
                        String role, String emailId, 
                        String mobileNo, Date dateOfBirth, 
                        Date dateOfJoin, float previousExperience,
                        String specialization, float trainingExperience,
-                       int noOfTrainee, List<String> trainerName, 
+                       int noOfTrainee, List<String> trainersName, 
                        Set<String> learnedSkills, 
                        int trainingPeriod) {
-        this.id = id;
+        this.employeeId = employeeId;
         this.name = name;
         this.gender = gender;
         this.address = address;
@@ -61,17 +61,17 @@ public class EmployeeDTO {
         this.specialization = specialization;
         this.trainingExperience = trainingExperience;
         this.noOfTrainee = noOfTrainee;
-        this.trainerName = trainerName;
+        this.trainersName = trainersName;
         this.learnedSkills = learnedSkills;
         this.trainingPeriod = trainingPeriod;
     }
     
-    public String getId() {
-        return id;
+    public String getEmployeeId() {
+        return employeeId;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setEmployeeId(String employeeId) {
+        this.employeeId = employeeId;
     }
 
     public String getName() {
@@ -194,12 +194,12 @@ public class EmployeeDTO {
         this.noOfTrainee = noOfTrainee;
     }
 
-    public List<String> getTrainerName() {
-        return trainerName;
+    public List<String> getTrainersName() {
+        return trainersName;
     }
 
-    public void setTrainerName(List<String> trainerName) {
-        this.trainerName = trainerName;
+    public void setTrainersName(List<String> trainersName) {
+        this.trainersName = trainersName;
     }
 
     public Set<String> getLearnedSkills() {
@@ -223,7 +223,7 @@ public class EmployeeDTO {
         String returnString = "";
 
         if ("TRAINER".equals(this.role)) {
-            returnString = ("\nID                    : " + this.id 
+            returnString = ("\nID                    : " + this.employeeId 
                     + "\nName                  : " + this.name
                     + "\nGender                : " + this.gender 
                     + "\nAddress               : " + Optional.ofNullable(this.address).orElse("")
@@ -235,7 +235,7 @@ public class EmployeeDTO {
                     + "\nExperience in Training: " + trainingExperience 
                     + "\nNumber of Trainee     : " + noOfTrainee);
         } else if ("TRAINEE".equals(this.role)) {
-            returnString = ("\nID                    : " + this.id 
+            returnString = ("\nID                    : " + this.employeeId 
                     + "\nName                  : " + this.name
                     + "\nGender                : " + this.gender 
                     + "\nAddress               : " + Optional.ofNullable(this.address).orElse("")
@@ -243,7 +243,7 @@ public class EmployeeDTO {
                     + "\nTotal Experience      : " + this.experience + " Years"
                     + "\nDesignation           : " + Optional.ofNullable(this.designation).orElse("") 
                     + "\nDate of Join          : " + simpleDateFormater.format(this.dateOfJoin)
-                    + "\nTrainer Name          : " + String.join(", ", this.trainerName) 
+                    + "\nTrainers Name         : " + String.join(", ", this.trainersName) 
                     + "\nLearned Skills        : " + String.join(", ", this.learnedSkills) 
                     + "\nTraining period       : " + trainingPeriod); 
         }

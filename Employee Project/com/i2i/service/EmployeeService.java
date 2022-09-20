@@ -1,9 +1,6 @@
 package com.i2i.service;
 
-import java.util.Date;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 import com.i2i.exception.EmployeeException;
 import com.i2i.model.Employee;
@@ -57,11 +54,11 @@ public interface EmployeeService {
      * @param Employee trainer
      *         The trainer is needs to updated in DAO.
      * 
-     * @return boolean value true if the updation is success, otherwise false.
+     * @return Employee object if the updation is success, otherwise null.
      *
      * @throws EmployeeException.
      */
-    boolean updateTrainerById(String id, Employee employee) throws EmployeeException;
+    Employee updateTrainer(Employee employee, Employee updatableEmployee) throws EmployeeException;
 
     /**
      * <p>
@@ -70,22 +67,24 @@ public interface EmployeeService {
      * 
      * @param String id
      *         for which id needs to find out the existing object.
-     * @return List of Employee if the object exist, otherwise return empty list.
+     * @return trainer as Employee object if the object exist, otherwise return null.
      *
      * @throws EmployeeException.
      */
-    List<Employee> searchTrainerById(String id) throws EmployeeException;
+    Employee searchTrainerById(String id) throws EmployeeException;
 
     /**
      * <p>
      * This method will send the entire trainers for the called method.
      * </p>
-     * 
-     * @return employeesMap entryset.
+     *
+     * @param int startValue 
+     *         for whicg value is used to diplay the record form this position 
+     * @return the employees as list.
      *
      * @throws EmployeeException.
      */
-    List<Employee> getTrainers() throws EmployeeException;
+    List<Employee> getTrainers(int startValue)  throws EmployeeException;
 
     /**
      * <p>
@@ -99,30 +98,6 @@ public interface EmployeeService {
      * @throws EmployeeException.
      */
     boolean deleteTrainerById(String id) throws EmployeeException;
-
-    /**
-     * <p>
-     * This method checks whether trainers exist or not
-     * </p>
-     * 
-     * @return the boolean value true if the data exist, otherwise false.
-     *
-     * @throws EmployeeException.
-     */
-    boolean isTrainersEmpty() throws EmployeeException;
-
-    /**
-     * <p>
-     * Get the id number and check it whether the trainer is exist or not for given id
-     * </p>
-     * 
-     * @param String id
-     *         for which id needs to check whether it exist.
-     * @return the boolean value true if the data exist, otherwise false.
-     *
-     * @throws EmployeeException.
-     */
-    boolean isTrainerExist(String id) throws EmployeeException;
 
     /**
      * <p>
@@ -150,11 +125,11 @@ public interface EmployeeService {
      * @param Employee employee
      *         The trainee is needs to updated in DAO.
      *
-     * @return boolean value true if the updation is success, otherwise false.
+     * @return Employee object if the updation is success, otherwise null.
      *
      * @throws EmployeeException.
      */
-    boolean updateTraineeById(String id, Employee trainee) throws EmployeeException, EmployeeException;
+    Employee updateTrainee(Employee employee, Employee updatableEmployee) throws EmployeeException, EmployeeException;
 
     /**
      * <p>
@@ -163,22 +138,24 @@ public interface EmployeeService {
      * 
      * @param String id
      *         for which id needs to find out the existing object.
-     * @return List of Employee if the object exist, otherwise return empty list.
+     * @return trainee as a Employee object if the object exist, otherwise return null.
      *
      * @throws EmployeeException.
      */
-    List<Employee> searchTraineeById(String id) throws EmployeeException;
+    Employee searchTraineeById(String id) throws EmployeeException;
 
     /**
      * <p>
      * This method will send the entire trainees for the called method.
      * </p>
-     * 
+     *
+     * @param int startValue 
+     *         for whicg value is used to diplay the record form this position 
      * @return the employees as list.
      *
      * @throws EmployeeException.
      */
-    List<Employee> getTrainees() throws EmployeeException;
+    List<Employee> getTrainees(int startValue)  throws EmployeeException;
 
     /**
      * <p>
@@ -195,25 +172,25 @@ public interface EmployeeService {
 
     /**
      * <p>
-     * This method checks whether trainers exist or not
+     * This method is used to get the page count for displaying the 
+     *  trainer from dao
      * </p>
      * 
-     * @return the boolean value true if the data exist, otherwise false.
+     * @return pageCount as integer
      *
-     * @throws EmployeeException.
+     * @throws EmployeeException
      */
-    boolean isTraineesEmpty() throws EmployeeException;
+    public int getTrainerPageCount() throws EmployeeException;
 
     /**
      * <p>
-     * Get the id number and check it whether the trainee is exist or not
+     * This method is used to get the page count for displaying the 
+     *  trainee from dao
      * </p>
      * 
-     * @param String id
-     *         for which id needs to check whether it exist.
-     * @return the boolean value true if the data exist, otherwise false.
+     * @return pageCount as integer
      *
-     * @throws EmployeeException.
+     * @throws EmployeeException
      */
-    boolean isTraineeExist(String id) throws EmployeeException;
+    public int getTraineePageCount() throws EmployeeException;
 }
