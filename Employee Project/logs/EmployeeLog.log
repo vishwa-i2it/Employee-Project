@@ -357,3 +357,852 @@ log working
 [INFO]	2022-09-20 23:33:25 Dialect - HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
 [INFO]	2022-09-20 23:33:26 access - HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@590dea35] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
 [INFO]	2022-09-20 23:33:26 JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+[INFO]	2022-09-21 10:18:07 EmployeeController - 
+Which profile you going to access?
+1. Trainer 
+2. Trainee 
+3. Exit
+[INFO]	2022-09-21 10:18:19 Version - HHH000412: Hibernate ORM core version 5.6.11.Final
+[INFO]	2022-09-21 10:18:20 Version - HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+[WARN]	2022-09-21 10:18:20 pooling - HHH10001002: Using Hibernate built-in connection pool (not for production use!)
+[INFO]	2022-09-21 10:18:20 pooling - HHH10001005: using driver [com.mysql.jdbc.Driver] at URL [jdbc:mysql://localhost:3306/employee_project]
+[INFO]	2022-09-21 10:18:20 pooling - HHH10001001: Connection properties: {password=****, user=root}
+[INFO]	2022-09-21 10:18:20 pooling - HHH10001003: Autocommit mode: false
+[INFO]	2022-09-21 10:18:20 DriverManagerConnectionProviderImpl - HHH000115: Hibernate connection pool size: 20 (min=1)
+[INFO]	2022-09-21 10:18:21 Dialect - HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
+[INFO]	2022-09-21 10:18:22 access - HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@2d73767e] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+[INFO]	2022-09-21 10:18:22 JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+[INFO]	2022-09-21 10:18:22 EmployeeController - Page Number: 1
+[INFO]	2022-09-21 10:18:22 EmployeeController - -------------------------------------------------
+[INFO]	2022-09-21 10:18:22 EmployeeController - 
+ID                    : I5
+Name                  : kjhjkhkjh
+Gender                : MALE
+Address               : 
+Age                   : 21
+Total Experience      : 3.7 Years
+Designation           : 
+Date of Join          : 12/12/2021
+Specialization        : 
+Experience in Training: 0.0
+Number of Trainee     : 0
+[INFO]	2022-09-21 10:18:22 EmployeeController - 
+ID                    : I6
+Name                  : saldfj
+Gender                : MALE
+Address               : 
+Age                   : 20
+Total Experience      : 2.7 Years
+Designation           : 
+Date of Join          : 12/12/2019
+Specialization        : 
+Experience in Training: 0.0
+Number of Trainee     : 0
+[INFO]	2022-09-21 10:18:22 EmployeeController - 
+ID                    : I10
+Name                  : lsadfj
+Gender                : MALE
+Address               : 
+Age                   : 20
+Total Experience      : 2.7 Years
+Designation           : 
+Date of Join          : 12/12/2019
+Specialization        : 
+Experience in Training: 0.0
+Number of Trainee     : 0
+[INFO]	2022-09-21 10:18:22 EmployeeController - 
+ID                    : I14
+Name                  : dsaf
+Gender                : OTHERS
+Address               : 
+Age                   : 20
+Total Experience      : 2.7 Years
+Designation           : 
+Date of Join          : 12/12/2019
+Specialization        : 
+Experience in Training: 0.0
+Number of Trainee     : 0
+[INFO]	2022-09-21 10:18:22 EmployeeController - 
+ID                    : I15
+Name                  : asdf
+Gender                : MALE
+Address               : 
+Age                   : 20
+Total Experience      : 2.6 Years
+Designation           : 
+Date of Join          : 12/01/2020
+Specialization        : 
+Experience in Training: 1.0
+Number of Trainee     : 0
+[INFO]	2022-09-21 10:18:22 EmployeeController - -------------------------------------------------
+[INFO]	2022-09-21 10:18:22 EmployeeController - 
+1. Next 	2. Previous 	3. End
+[INFO]	2022-09-21 10:18:25 EmployeeController - Your in first page!!
+[INFO]	2022-09-21 10:18:25 EmployeeController - --------------------
+[INFO]	2022-09-21 10:18:25 EmployeeController - Page Number: 1
+[INFO]	2022-09-21 10:18:25 EmployeeController - -------------------------------------------------
+[INFO]	2022-09-21 10:18:25 EmployeeController - 
+ID                    : I5
+Name                  : kjhjkhkjh
+Gender                : MALE
+Address               : 
+Age                   : 21
+Total Experience      : 3.7 Years
+Designation           : 
+Date of Join          : 12/12/2021
+Specialization        : 
+Experience in Training: 0.0
+Number of Trainee     : 0
+[INFO]	2022-09-21 10:18:25 EmployeeController - 
+ID                    : I6
+Name                  : saldfj
+Gender                : MALE
+Address               : 
+Age                   : 20
+Total Experience      : 2.7 Years
+Designation           : 
+Date of Join          : 12/12/2019
+Specialization        : 
+Experience in Training: 0.0
+Number of Trainee     : 0
+[INFO]	2022-09-21 10:18:25 EmployeeController - 
+ID                    : I10
+Name                  : lsadfj
+Gender                : MALE
+Address               : 
+Age                   : 20
+Total Experience      : 2.7 Years
+Designation           : 
+Date of Join          : 12/12/2019
+Specialization        : 
+Experience in Training: 0.0
+Number of Trainee     : 0
+[INFO]	2022-09-21 10:18:25 EmployeeController - 
+ID                    : I14
+Name                  : dsaf
+Gender                : OTHERS
+Address               : 
+Age                   : 20
+Total Experience      : 2.7 Years
+Designation           : 
+Date of Join          : 12/12/2019
+Specialization        : 
+Experience in Training: 0.0
+Number of Trainee     : 0
+[INFO]	2022-09-21 10:18:25 EmployeeController - 
+ID                    : I15
+Name                  : asdf
+Gender                : MALE
+Address               : 
+Age                   : 20
+Total Experience      : 2.6 Years
+Designation           : 
+Date of Join          : 12/01/2020
+Specialization        : 
+Experience in Training: 1.0
+Number of Trainee     : 0
+[INFO]	2022-09-21 10:18:25 EmployeeController - -------------------------------------------------
+[INFO]	2022-09-21 10:18:25 EmployeeController - 
+1. Next 	2. Previous 	3. End
+[INFO]	2022-09-21 10:18:31 EmployeeController - Your in first page!!
+[INFO]	2022-09-21 10:18:31 EmployeeController - --------------------
+[INFO]	2022-09-21 10:18:31 EmployeeController - Page Number: 1
+[INFO]	2022-09-21 10:18:31 EmployeeController - -------------------------------------------------
+[INFO]	2022-09-21 10:18:31 EmployeeController - 
+ID                    : I5
+Name                  : kjhjkhkjh
+Gender                : MALE
+Address               : 
+Age                   : 21
+Total Experience      : 3.7 Years
+Designation           : 
+Date of Join          : 12/12/2021
+Specialization        : 
+Experience in Training: 0.0
+Number of Trainee     : 0
+[INFO]	2022-09-21 10:18:31 EmployeeController - 
+ID                    : I6
+Name                  : saldfj
+Gender                : MALE
+Address               : 
+Age                   : 20
+Total Experience      : 2.7 Years
+Designation           : 
+Date of Join          : 12/12/2019
+Specialization        : 
+Experience in Training: 0.0
+Number of Trainee     : 0
+[INFO]	2022-09-21 10:18:31 EmployeeController - 
+ID                    : I10
+Name                  : lsadfj
+Gender                : MALE
+Address               : 
+Age                   : 20
+Total Experience      : 2.7 Years
+Designation           : 
+Date of Join          : 12/12/2019
+Specialization        : 
+Experience in Training: 0.0
+Number of Trainee     : 0
+[INFO]	2022-09-21 10:18:31 EmployeeController - 
+ID                    : I14
+Name                  : dsaf
+Gender                : OTHERS
+Address               : 
+Age                   : 20
+Total Experience      : 2.7 Years
+Designation           : 
+Date of Join          : 12/12/2019
+Specialization        : 
+Experience in Training: 0.0
+Number of Trainee     : 0
+[INFO]	2022-09-21 10:18:31 EmployeeController - 
+ID                    : I15
+Name                  : asdf
+Gender                : MALE
+Address               : 
+Age                   : 20
+Total Experience      : 2.6 Years
+Designation           : 
+Date of Join          : 12/01/2020
+Specialization        : 
+Experience in Training: 1.0
+Number of Trainee     : 0
+[INFO]	2022-09-21 10:18:31 EmployeeController - -------------------------------------------------
+[INFO]	2022-09-21 10:18:31 EmployeeController - 
+1. Next 	2. Previous 	3. End
+[INFO]	2022-09-21 10:18:35 EmployeeController - Page Number: 2
+[INFO]	2022-09-21 10:18:35 EmployeeController - -------------------------------------------------
+[INFO]	2022-09-21 10:18:35 EmployeeController - 
+ID                    : I19
+Name                  : divya
+Gender                : FEMALE
+Address               : vadapalni
+Age                   : 20
+Total Experience      : 2.7 Years
+Designation           : developer
+Date of Join          : 12/12/2019
+Specialization        : java
+Experience in Training: 2.0
+Number of Trainee     : 12
+[INFO]	2022-09-21 10:18:35 EmployeeController - -------------------------------------------------
+[INFO]	2022-09-21 10:18:35 EmployeeController - 
+1. Next 	2. Previous 	3. End
+[INFO]	2022-09-21 10:18:40 EmployeeController - Back to Main menu
+[INFO]	2022-09-21 10:18:40 EmployeeController - 
+Which profile you going to access?
+1. Trainer 
+2. Trainee 
+3. Exit
+[INFO]	2022-09-21 10:18:48 EmployeeController - Thank You!!!
+[INFO]	2022-09-21 18:54:34 EmployeeController - 
+Which profile you going to access?
+1. Trainer 
+2. Trainee 
+3. Exit
+[INFO]	2022-09-21 18:54:45 EmployeeController - 
+Enter a valid Input!
+
+[INFO]	2022-09-21 18:54:46 EmployeeController - 
+[INFO]	2022-09-21 18:54:46 EmployeeController - 
+Enter the values for the Trainer: 
+ * These Fields are mandatory
+[INFO]	2022-09-21 18:54:46 Version - HHH000412: Hibernate ORM core version 5.6.11.Final
+[INFO]	2022-09-21 18:54:47 Version - HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+[WARN]	2022-09-21 18:54:47 pooling - HHH10001002: Using Hibernate built-in connection pool (not for production use!)
+[INFO]	2022-09-21 18:54:47 pooling - HHH10001005: using driver [com.mysql.jdbc.Driver] at URL [jdbc:mysql://localhost:3306/employee_project]
+[INFO]	2022-09-21 18:54:47 pooling - HHH10001001: Connection properties: {password=****, user=root}
+[INFO]	2022-09-21 18:54:47 pooling - HHH10001003: Autocommit mode: false
+[INFO]	2022-09-21 18:54:47 DriverManagerConnectionProviderImpl - HHH000115: Hibernate connection pool size: 20 (min=1)
+[INFO]	2022-09-21 18:54:47 Dialect - HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
+[INFO]	2022-09-21 18:54:48 access - HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@1fb71788] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+[INFO]	2022-09-21 18:54:48 JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+[INFO]	2022-09-21 18:54:49 EmployeeController - ID                    : I21
+[INFO]	2022-09-21 18:55:09 EmployeeController - 
+Enter a valid Input!
+
+[INFO]	2022-09-21 18:55:21 EmployeeController - 
+Enter a valid Input!
+
+[INFO]	2022-09-21 18:55:32 EmployeeController - 
+Enter a valid Input!
+
+[INFO]	2022-09-21 18:55:36 EmployeeController - 
+Enter a valid Input!
+
+[INFO]	2022-09-21 18:55:39 EmployeeController - 
+Enter a valid Input!
+
+[INFO]	2022-09-21 18:55:54 EmployeeController - 
+Enter a valid Input!
+
+[INFO]	2022-09-21 18:55:59 EmployeeController - 
+Enter a valid Input!
+
+[INFO]	2022-09-21 18:56:08 EmployeeController - 
+Enter a valid Input!
+
+[INFO]	2022-09-21 18:56:10 EmployeeController - 
+Enter a valid Input!
+
+[INFO]	2022-09-21 18:56:12 EmployeeController - 
+Enter a valid Input!
+
+[INFO]	2022-09-21 18:56:15 EmployeeController - 
+Record inserted successfully!
+[INFO]	2022-09-21 18:56:27 EmployeeController - 
+ID                    : I21
+Name                  : aldsfj
+Gender                : MALE
+Address               : 
+Age                   : 20
+Total Experience      : 2.7 Years
+Designation           : 
+Date of Join          : 12/12/2019
+Specialization        : 
+Experience in Training: 1.0
+Number of Trainee     : 2
+[INFO]	2022-09-21 18:57:49 EmployeeController - 
+Which profile you going to access?
+1. Trainer 
+2. Trainee 
+3. Exit
+[INFO]	2022-09-21 18:57:53 Version - HHH000412: Hibernate ORM core version 5.6.11.Final
+[INFO]	2022-09-21 18:57:54 Version - HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+[WARN]	2022-09-21 18:57:54 pooling - HHH10001002: Using Hibernate built-in connection pool (not for production use!)
+[INFO]	2022-09-21 18:57:54 pooling - HHH10001005: using driver [com.mysql.jdbc.Driver] at URL [jdbc:mysql://localhost:3306/employee_project]
+[INFO]	2022-09-21 18:57:54 pooling - HHH10001001: Connection properties: {password=****, user=root}
+[INFO]	2022-09-21 18:57:54 pooling - HHH10001003: Autocommit mode: false
+[INFO]	2022-09-21 18:57:54 DriverManagerConnectionProviderImpl - HHH000115: Hibernate connection pool size: 20 (min=1)
+[INFO]	2022-09-21 18:57:54 Dialect - HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
+[INFO]	2022-09-21 18:57:55 access - HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@1fb71788] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+[INFO]	2022-09-21 18:57:56 JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+[INFO]	2022-09-21 18:57:56 EmployeeController - Please enter the value for corresponding fields!
+If you want to skip any field just hit the Enter button
+[INFO]	2022-09-21 18:58:05 EmployeeController - 
+Enter a valid Input!
+
+[INFO]	2022-09-21 18:58:10 EmployeeController - 
+Enter a valid Input!
+
+[INFO]	2022-09-21 18:58:19 EmployeeController - 
+Enter a valid Input!
+
+[INFO]	2022-09-21 18:58:21 EmployeeController - 
+Enter a valid Input!
+
+[INFO]	2022-09-21 19:05:00 EmployeeController - 
+Which profile you going to access?
+1. Trainer 
+2. Trainee 
+3. Exit
+[INFO]	2022-09-21 19:05:05 Version - HHH000412: Hibernate ORM core version 5.6.11.Final
+[INFO]	2022-09-21 19:05:06 Version - HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+[WARN]	2022-09-21 19:05:06 pooling - HHH10001002: Using Hibernate built-in connection pool (not for production use!)
+[INFO]	2022-09-21 19:05:06 pooling - HHH10001005: using driver [com.mysql.jdbc.Driver] at URL [jdbc:mysql://localhost:3306/employee_project]
+[INFO]	2022-09-21 19:05:06 pooling - HHH10001001: Connection properties: {password=****, user=root}
+[INFO]	2022-09-21 19:05:06 pooling - HHH10001003: Autocommit mode: false
+[INFO]	2022-09-21 19:05:06 DriverManagerConnectionProviderImpl - HHH000115: Hibernate connection pool size: 20 (min=1)
+[INFO]	2022-09-21 19:05:06 Dialect - HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
+[INFO]	2022-09-21 19:05:07 access - HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@1fb71788] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+[INFO]	2022-09-21 19:05:07 JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+[INFO]	2022-09-21 19:05:08 EmployeeController - Please enter the value for corresponding fields!
+If you want to skip any field just hit the Enter button
+[INFO]	2022-09-21 19:05:17 EmployeeController - 
+Enter a valid Input!
+
+[INFO]	2022-09-21 19:05:26 EmployeeController - 
+Enter a valid Input!
+
+[INFO]	2022-09-21 19:05:32 EmployeeController - 
+Enter a valid Input!
+
+[INFO]	2022-09-21 19:05:36 EmployeeController - 
+Enter a valid Input!
+
+[INFO]	2022-09-21 19:05:41 EmployeeController - 
+Enter a valid Input!
+
+[INFO]	2022-09-21 19:05:50 EmployeeController - 
+Enter a valid Input!
+
+[INFO]	2022-09-21 19:05:59 EmployeeController - 
+Enter a valid Input!
+
+[INFO]	2022-09-21 19:06:01 EmployeeController - 
+Enter a valid Input!
+
+[INFO]	2022-09-21 19:06:04 EmployeeController - 
+Enter a valid Input!
+
+[INFO]	2022-09-21 19:06:12 EmployeeController - 
+Changes made successfully!
+[INFO]	2022-09-21 19:06:12 EmployeeController - 
+ID                    : I21
+Name                  : aldsfj
+Gender                : MALE
+Address               : 
+Age                   : 20
+Total Experience      : 2.7 Years
+Designation           : 
+Date of Join          : 12/12/2019
+Specialization        : 
+Experience in Training: 1.7
+Number of Trainee     : 1
+[INFO]	2022-09-21 19:08:11 EmployeeController - 
+Which profile you going to access?
+1. Trainer 
+2. Trainee 
+3. Exit
+[INFO]	2022-09-21 19:08:16 Version - HHH000412: Hibernate ORM core version 5.6.11.Final
+[INFO]	2022-09-21 19:08:17 Version - HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+[WARN]	2022-09-21 19:08:17 pooling - HHH10001002: Using Hibernate built-in connection pool (not for production use!)
+[INFO]	2022-09-21 19:08:17 pooling - HHH10001005: using driver [com.mysql.jdbc.Driver] at URL [jdbc:mysql://localhost:3306/employee_project]
+[INFO]	2022-09-21 19:08:17 pooling - HHH10001001: Connection properties: {password=****, user=root}
+[INFO]	2022-09-21 19:08:17 pooling - HHH10001003: Autocommit mode: false
+[INFO]	2022-09-21 19:08:17 DriverManagerConnectionProviderImpl - HHH000115: Hibernate connection pool size: 20 (min=1)
+[INFO]	2022-09-21 19:08:18 Dialect - HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
+[INFO]	2022-09-21 19:08:19 access - HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@e5c5e6] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+[INFO]	2022-09-21 19:08:19 JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+[INFO]	2022-09-21 19:08:19 EmployeeController - Please enter the value for corresponding fields!
+If you want to skip any field just hit the Enter button
+[INFO]	2022-09-21 19:08:23 EmployeeController - 
+Changes made successfully!
+[INFO]	2022-09-21 19:08:23 EmployeeController - 
+ID                    : I21
+Name                  : aldsfj
+Gender                : MALE
+Address               : 
+Age                   : 20
+Total Experience      : 2.7 Years
+Designation           : 
+Date of Join          : 12/12/2019
+Specialization        : 
+Experience in Training: 0.0
+Number of Trainee     : 0
+[INFO]	2022-09-21 19:10:22 EmployeeController - Please enter the value for corresponding fields!
+If you want to skip any field just hit the Enter button
+[INFO]	2022-09-21 19:10:29 EmployeeController - 
+Enter a valid Input!
+
+[INFO]	2022-09-21 19:11:35 EmployeeController - 
+Which profile you going to access?
+1. Trainer 
+2. Trainee 
+3. Exit
+[INFO]	2022-09-21 19:11:40 Version - HHH000412: Hibernate ORM core version 5.6.11.Final
+[INFO]	2022-09-21 19:11:40 Version - HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+[WARN]	2022-09-21 19:11:40 pooling - HHH10001002: Using Hibernate built-in connection pool (not for production use!)
+[INFO]	2022-09-21 19:11:40 pooling - HHH10001005: using driver [com.mysql.jdbc.Driver] at URL [jdbc:mysql://localhost:3306/employee_project]
+[INFO]	2022-09-21 19:11:40 pooling - HHH10001001: Connection properties: {password=****, user=root}
+[INFO]	2022-09-21 19:11:40 pooling - HHH10001003: Autocommit mode: false
+[INFO]	2022-09-21 19:11:40 DriverManagerConnectionProviderImpl - HHH000115: Hibernate connection pool size: 20 (min=1)
+[INFO]	2022-09-21 19:11:41 Dialect - HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
+[INFO]	2022-09-21 19:11:42 access - HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@e5c5e6] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+[INFO]	2022-09-21 19:11:42 JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+[INFO]	2022-09-21 19:11:42 EmployeeController - Please enter the value for corresponding fields!
+If you want to skip any field just hit the Enter button
+[INFO]	2022-09-21 19:11:52 EmployeeController - 
+Changes made successfully!
+[INFO]	2022-09-21 19:11:52 EmployeeController - 
+ID                    : I21
+Name                  : aldsfj
+Gender                : MALE
+Address               : 
+Age                   : 20
+Total Experience      : 2.7 Years
+Designation           : 
+Date of Join          : 12/12/2019
+Specialization        : 
+Experience in Training: 0.0
+Number of Trainee     : 100
+[INFO]	2022-09-21 19:12:12 EmployeeController - Please enter the value for corresponding fields!
+If you want to skip any field just hit the Enter button
+[INFO]	2022-09-21 19:12:25 EmployeeController - 
+Enter a valid Input!
+
+[INFO]	2022-09-21 19:12:31 EmployeeController - 
+Changes made successfully!
+[INFO]	2022-09-21 19:12:31 EmployeeController - 
+ID                    : I21
+Name                  : aldsfj
+Gender                : MALE
+Address               : 
+Age                   : 20
+Total Experience      : 2.7 Years
+Designation           : 
+Date of Join          : 12/12/2019
+Specialization        : 
+Experience in Training: 0.0
+Number of Trainee     : 9
+[INFO]	2022-09-21 22:09:27 EmployeeController - 
+Which profile you going to access?
+1. Trainer 
+2. Trainee 
+3. Exit
+[INFO]	2022-09-21 22:09:33 Version - HHH000412: Hibernate ORM core version 5.6.11.Final
+[INFO]	2022-09-21 22:09:33 Version - HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+[WARN]	2022-09-21 22:09:33 pooling - HHH10001002: Using Hibernate built-in connection pool (not for production use!)
+[INFO]	2022-09-21 22:09:33 pooling - HHH10001005: using driver [com.mysql.jdbc.Driver] at URL [jdbc:mysql://localhost:3306/employee_project]
+[INFO]	2022-09-21 22:09:33 pooling - HHH10001001: Connection properties: {password=****, user=root}
+[INFO]	2022-09-21 22:09:33 pooling - HHH10001003: Autocommit mode: false
+[INFO]	2022-09-21 22:09:33 DriverManagerConnectionProviderImpl - HHH000115: Hibernate connection pool size: 20 (min=1)
+[INFO]	2022-09-21 22:09:34 Dialect - HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
+[INFO]	2022-09-21 22:09:35 access - HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@1fb71788] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+[INFO]	2022-09-21 22:09:35 JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+[INFO]	2022-09-21 22:09:35 EmployeeController - Please enter the value for corresponding fields!
+If you want to skip any field just hit the Enter button
+[INFO]	2022-09-21 22:09:39 EmployeeController - 
+Changes made successfully!
+[INFO]	2022-09-21 22:09:39 EmployeeController - 
+ID                    : I21
+Name                  : aldsfj
+Gender                : MALE
+Address               : 
+Age                   : 20
+Total Experience      : 2.7 Years
+Designation           : 
+Date of Join          : 12/12/2019
+Specialization        : 
+Experience in Training: 0.0
+Number of Trainee     : 9
+[INFO]	2022-09-21 22:09:53 EmployeeController - Please enter the value for corresponding fields!
+If you want to skip any field just hit the Enter button
+[INFO]	2022-09-21 22:10:04 EmployeeController - 
+Enter a valid Input!
+
+[INFO]	2022-09-21 22:10:11 EmployeeController - 
+Changes made successfully!
+[INFO]	2022-09-21 22:10:11 EmployeeController - 
+ID                    : I21
+Name                  : aldsfj
+Gender                : MALE
+Address               : 
+Age                   : 20
+Total Experience      : 2.7 Years
+Designation           : 
+Date of Join          : 12/12/2019
+Specialization        : 
+Experience in Training: 1.9
+Number of Trainee     : 9
+[INFO]	2022-09-21 22:10:15 EmployeeController - Please enter the value for corresponding fields!
+If you want to skip any field just hit the Enter button
+[INFO]	2022-09-21 22:10:17 EmployeeController - 
+Changes made successfully!
+[INFO]	2022-09-21 22:10:17 EmployeeController - 
+ID                    : I21
+Name                  : aldsfj
+Gender                : MALE
+Address               : 
+Age                   : 20
+Total Experience      : 2.7 Years
+Designation           : 
+Date of Join          : 12/12/2019
+Specialization        : 
+Experience in Training: 1.9
+Number of Trainee     : 9
+[INFO]	2022-09-21 22:11:43 EmployeeController - 
+Which profile you going to access?
+1. Trainer 
+2. Trainee 
+3. Exit
+[INFO]	2022-09-21 22:12:59 EmployeeController - 
+Which profile you going to access?
+1. Trainer 
+2. Trainee 
+3. Exit
+[INFO]	2022-09-21 22:14:19 EmployeeController - 
+Which profile you going to access?
+1. Trainer 
+2. Trainee 
+3. Exit
+[INFO]	2022-09-21 22:14:20 EmployeeController - 
+Enter a valid Input!
+
+[INFO]	2022-09-21 22:14:21 EmployeeController - 
+Enter a valid Input!
+
+[INFO]	2022-09-21 22:14:22 EmployeeController - 
+Enter a valid Input!
+
+[INFO]	2022-09-21 22:14:22 EmployeeController - 
+Enter a valid Input!
+
+[INFO]	2022-09-21 22:14:23 EmployeeController - 
+Enter a valid Input!
+
+[INFO]	2022-09-21 22:14:23 EmployeeController - 
+Enter a valid Input!
+
+[INFO]	2022-09-21 22:14:23 EmployeeController - 
+Enter a valid Input!
+
+[INFO]	2022-09-21 22:14:23 EmployeeController - 
+Enter a valid Input!
+
+[INFO]	2022-09-21 22:14:24 EmployeeController - 
+Enter a valid Input!
+
+[INFO]	2022-09-21 22:14:24 EmployeeController - 
+Enter a valid Input!
+
+[INFO]	2022-09-21 22:14:24 EmployeeController - 
+Enter a valid Input!
+
+[INFO]	2022-09-21 22:14:24 EmployeeController - 
+Enter a valid Input!
+
+[INFO]	2022-09-21 22:14:24 EmployeeController - 
+Enter a valid Input!
+
+[INFO]	2022-09-21 22:14:24 EmployeeController - 
+Enter a valid Input!
+
+[INFO]	2022-09-21 22:14:24 EmployeeController - 
+Enter a valid Input!
+
+[INFO]	2022-09-21 22:14:24 EmployeeController - 
+Enter a valid Input!
+
+[INFO]	2022-09-21 22:14:24 EmployeeController - 
+Enter a valid Input!
+
+[INFO]	2022-09-21 22:14:24 EmployeeController - 
+Enter a valid Input!
+
+[INFO]	2022-09-21 22:14:24 EmployeeController - 
+Enter a valid Input!
+
+[INFO]	2022-09-21 22:14:24 EmployeeController - 
+Enter a valid Input!
+
+[INFO]	2022-09-21 22:14:24 EmployeeController - 
+Enter a valid Input!
+
+[INFO]	2022-09-21 22:14:27 EmployeeController - Enter the value between 1 and 3
+[INFO]	2022-09-21 22:14:27 EmployeeController - 
+Which profile you going to access?
+1. Trainer 
+2. Trainee 
+3. Exit
+[INFO]	2022-09-21 22:14:31 EmployeeController - Enter the value between 1 and 3
+[INFO]	2022-09-21 22:14:31 EmployeeController - 
+Which profile you going to access?
+1. Trainer 
+2. Trainee 
+3. Exit
+[INFO]	2022-09-21 22:14:33 EmployeeController - 
+Enter a valid Input!
+
+[INFO]	2022-09-21 22:14:34 EmployeeController - 
+Enter a valid Input!
+
+[INFO]	2022-09-21 22:14:37 EmployeeController - 
+Enter a valid Input!
+
+[INFO]	2022-09-21 22:14:53 EmployeeController - 
+Enter a valid Input!
+
+[INFO]	2022-09-21 22:15:09 EmployeeController - Back to Main menu
+[INFO]	2022-09-21 22:15:09 EmployeeController - 
+Which profile you going to access?
+1. Trainer 
+2. Trainee 
+3. Exit
+[INFO]	2022-09-21 22:15:19 EmployeeController - 
+Enter a valid Input!
+
+[INFO]	2022-09-21 22:15:22 EmployeeController - Enter the value between 1 and 3
+[INFO]	2022-09-21 22:15:22 EmployeeController - 
+Which profile you going to access?
+1. Trainer 
+2. Trainee 
+3. Exit
+[INFO]	2022-09-21 22:15:53 Version - HHH000412: Hibernate ORM core version 5.6.11.Final
+[INFO]	2022-09-21 22:15:54 Version - HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+[WARN]	2022-09-21 22:15:54 pooling - HHH10001002: Using Hibernate built-in connection pool (not for production use!)
+[INFO]	2022-09-21 22:15:54 pooling - HHH10001005: using driver [com.mysql.jdbc.Driver] at URL [jdbc:mysql://localhost:3306/employee_project]
+[INFO]	2022-09-21 22:15:54 pooling - HHH10001001: Connection properties: {password=****, user=root}
+[INFO]	2022-09-21 22:15:54 pooling - HHH10001003: Autocommit mode: false
+[INFO]	2022-09-21 22:15:54 DriverManagerConnectionProviderImpl - HHH000115: Hibernate connection pool size: 20 (min=1)
+[INFO]	2022-09-21 22:15:55 Dialect - HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
+[INFO]	2022-09-21 22:15:56 access - HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@8cb7185] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+[INFO]	2022-09-21 22:15:56 JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+[INFO]	2022-09-21 22:15:56 EmployeeController - Page Number: 1
+[INFO]	2022-09-21 22:15:56 EmployeeController - -------------------------------------------------
+[INFO]	2022-09-21 22:15:56 EmployeeController - 
+ID                    : I4
+Name                  : vishwa
+Gender                : MALE
+Address               : chennai
+Age                   : 20
+Total Experience      : 2.7 Years
+Designation           : developer
+Date of Join          : 12/12/2019
+Trainers Name         : sathish
+Learned Skills        : java
+Training period       : 0
+[INFO]	2022-09-21 22:15:56 EmployeeController - 
+ID                    : I7
+Name                  : dsaf
+Gender                : MALE
+Address               : 
+Age                   : 20
+Total Experience      : 2.7 Years
+Designation           : 
+Date of Join          : 12/12/2019
+Trainers Name         : 
+Learned Skills        : 
+Training period       : 0
+[INFO]	2022-09-21 22:15:56 EmployeeController - 
+ID                    : I8
+Name                  : dsafiuytrtyu
+Gender                : MALE
+Address               : jhgfdsdfhjk
+Age                   : 20
+Total Experience      : 2.7 Years
+Designation           : kjhgfdsasdfghj
+Date of Join          : 12/12/2020
+Trainers Name         : sathish
+Learned Skills        : 
+Training period       : 0
+[INFO]	2022-09-21 22:15:56 EmployeeController - 
+ID                    : I9
+Name                  : sadf
+Gender                : FEMALE
+Address               : 
+Age                   : 20
+Total Experience      : 2.7 Years
+Designation           : 
+Date of Join          : 12/12/2019
+Trainers Name         : 
+Learned Skills        : java
+Training period       : 0
+[INFO]	2022-09-21 22:15:56 EmployeeController - 
+ID                    : I12
+Name                  : dsf
+Gender                : MALE
+Address               : 
+Age                   : 20
+Total Experience      : 2.7 Years
+Designation           : 
+Date of Join          : 12/12/2019
+Trainers Name         : 
+Learned Skills        : python, java
+Training period       : 0
+[INFO]	2022-09-21 22:15:56 EmployeeController - -------------------------------------------------
+[INFO]	2022-09-21 22:15:56 EmployeeController - 
+1. Next 	2. Previous 	3. End
+[INFO]	2022-09-21 22:16:09 EmployeeController - Please enter the value for corresponding fields!
+If you want to skip any field just hit the Enter button
+[INFO]	2022-09-21 22:16:17 EmployeeController - 
+Changes made successfully!
+[INFO]	2022-09-21 22:16:17 EmployeeController - 
+ID                    : I12
+Name                  : dsf
+Gender                : MALE
+Address               : 
+Age                   : 20
+Total Experience      : 2.7 Years
+Designation           : 
+Date of Join          : 12/12/2019
+Trainers Name         : 
+Learned Skills        : python, java
+Training period       : 1
+[INFO]	2022-09-21 22:16:38 EmployeeController - Please enter the value for corresponding fields!
+If you want to skip any field just hit the Enter button
+[INFO]	2022-09-21 22:16:48 EmployeeController - 
+Enter a valid Input!
+
+[INFO]	2022-09-21 22:16:57 EmployeeController - 
+Changes made successfully!
+[INFO]	2022-09-21 22:16:57 EmployeeController - 
+ID                    : I12
+Name                  : dsf
+Gender                : MALE
+Address               : 
+Age                   : 20
+Total Experience      : 2.7 Years
+Designation           : 
+Date of Join          : 12/12/2019
+Trainers Name         : 
+Learned Skills        : python, java
+Training period       : 1
+[INFO]	2022-09-21 22:17:01 EmployeeController - Please enter the value for corresponding fields!
+If you want to skip any field just hit the Enter button
+[INFO]	2022-09-21 22:17:13 EmployeeController - 
+Enter a valid Input!
+
+[INFO]	2022-09-21 22:17:28 EmployeeController - 
+Enter a valid Input!
+
+[INFO]	2022-09-21 22:17:33 EmployeeController - 
+Changes made successfully!
+[INFO]	2022-09-21 22:17:33 EmployeeController - 
+ID                    : I12
+Name                  : dsf
+Gender                : MALE
+Address               : 
+Age                   : 20
+Total Experience      : 3.7 Years
+Designation           : 
+Date of Join          : 12/12/2019
+Trainers Name         : 
+Learned Skills        : python, java
+Training period       : 1
+[INFO]	2022-09-21 22:18:22 EmployeeController - Please enter the value for corresponding fields!
+If you want to skip any field just hit the Enter button
+[INFO]	2022-09-21 22:18:37 EmployeeController - 
+Changes made successfully!
+[INFO]	2022-09-21 22:18:37 EmployeeController - 
+ID                    : I12
+Name                  : dsf
+Gender                : MALE
+Address               : 
+Age                   : 20
+Total Experience      : 3.7 Years
+Designation           : 
+Date of Join          : 12/12/2019
+Trainers Name         : 
+Learned Skills        : python, java
+Training period       : 1
+[INFO]	2022-09-21 22:18:37 EmployeeController - 
+Enter a valid Input!
+
+[INFO]	2022-09-21 22:19:02 EmployeeController - There is no existing record for the given ID!
+[INFO]	2022-09-21 22:19:09 EmployeeController - Please enter the value for corresponding fields!
+If you want to skip any field just hit the Enter button
+[INFO]	2022-09-21 22:19:27 EmployeeController - 
+Enter a valid Input!
+
+[INFO]	2022-09-21 22:19:28 EmployeeController - 
+Changes made successfully!
+[INFO]	2022-09-21 22:19:28 EmployeeController - 
+ID                    : I12
+Name                  : dsf
+Gender                : MALE
+Address               : 
+Age                   : 20
+Total Experience      : 3.7 Years
+Designation           : 
+Date of Join          : 12/12/2019
+Trainers Name         : 
+Learned Skills        : python, java
+Training period       : 12
+[INFO]	2022-09-21 22:31:53 EmployeeController - 
+Which profile you going to access?
+1. Trainer 
+2. Trainee 
+3. Exit
+[INFO]	2022-09-21 22:31:55 EmployeeController - 
+Enter a valid Input!
+
+[INFO]	2022-09-21 22:31:56 EmployeeController - 
+Enter a valid Input!
+
+[INFO]	2022-09-21 22:31:59 EmployeeController - Back to Main menu
+[INFO]	2022-09-21 22:31:59 EmployeeController - 
+Which profile you going to access?
+1. Trainer 
+2. Trainee 
+3. Exit

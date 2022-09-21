@@ -45,6 +45,23 @@ public class CommonUtil {
      * @return the boolean value (true or false) based on the condition.
      */
     public static boolean isNumeric(String number) {
-        return Pattern.matches("[0-9]", number);
+        return Pattern.matches("^(\\d*)$", number);
+    }
+
+    /**
+     * <p>
+     * Get the string and check it whether it contains 
+     * only number and/or '.', not a alphabet and others.
+     * </p>
+     * 
+     * (e.g): number = "987.0", retrun true
+     * (e.g): number = "12h#", retrun false
+     * 
+     * @param String number
+     *        for which the number needs to be validated.
+     * @return the boolean value (true or false) based on the condition.
+     */
+    public static boolean isDecimalNumber(String number) {
+        return Pattern.matches("^(\\d*\\.)?\\d+$", number);
     }
 }

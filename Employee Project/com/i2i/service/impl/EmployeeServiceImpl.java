@@ -128,7 +128,7 @@ public class EmployeeServiceImpl implements EmployeeService {
                 updatableEmployee.setDateOfJoin(dateOfJoin);
             }
 
-            if (previousExperience != updatableEmployee.getPreviousExperience()) {
+            if (previousExperience != null) {
                 updatableEmployee.setPreviousExperience(previousExperience);
             }
 
@@ -136,11 +136,11 @@ public class EmployeeServiceImpl implements EmployeeService {
                 updatableEmployee.setSpecialization(specialization);
             }
 
-            if (trainingExperience != updatableEmployee.getTrainingExperience()) {
+            if (trainingExperience != null) {
                 updatableEmployee.setTrainingExperience(trainingExperience);
             }
 
-            if (noOfTrainee != updatableEmployee.getNoOfTrainee()) {
+            if (noOfTrainee != null) {
                 updatableEmployee.setNoOfTrainee(noOfTrainee);
             }
             return employeeDAO.updateEmployee(updatableEmployee);
@@ -276,7 +276,7 @@ public class EmployeeServiceImpl implements EmployeeService {
                 updatableEmployee.setDateOfJoin(dateOfJoin);
             }
 
-            if (previousExperience != updatableEmployee.getPreviousExperience()) {
+            if (previousExperience != null) {
                 updatableEmployee.setPreviousExperience(previousExperience);
             }
 
@@ -288,7 +288,7 @@ public class EmployeeServiceImpl implements EmployeeService {
                 updatableEmployee.setLearnedSkills(learnedSkills);
             }
 
-            if (trainingPeriod != updatableEmployee.getTrainingPeriod()) {
+            if (trainingPeriod != null) {
                 updatableEmployee.setTrainingPeriod(trainingPeriod);
             }
             return employeeDAO.updateEmployee(updatableEmployee);

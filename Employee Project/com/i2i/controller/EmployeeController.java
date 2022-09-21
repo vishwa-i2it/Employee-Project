@@ -1,7 +1,5 @@
 package com.i2i.controller;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -48,7 +46,7 @@ class EmployeeController {
         boolean validInput = false;
 
         do {
-            System.out.println("\nWhich profile you going to access?\n" 
+            log.info("\nWhich profile you going to access?\n" 
                            + "1. Trainer \n2. Trainee \n3. Exit");
             givenProfileAccess = employeeController.getNumber();
             switch (givenProfileAccess) {
@@ -65,7 +63,7 @@ class EmployeeController {
                     break;
 
                 default:
-                    System.out.println(ConstantUtil.INPUT_RANGE);
+                    log.info(ConstantUtil.INPUT_RANGE);
                     break;
             } 
         } while(givenProfileAccess != 3);
@@ -88,7 +86,7 @@ class EmployeeController {
             givenTrainerOperation = getNumber();
             switch (givenTrainerOperation) {
                 case 1:
-                    System.out.println("");
+                    log.info("");
                     readTrainer();
                     break;
 
@@ -109,11 +107,11 @@ class EmployeeController {
                     break;
 
                 case 6:
-                    System.out.println(ConstantUtil.MAIN_MENU);
+                    log.info(ConstantUtil.MAIN_MENU);
                     break;
 
                 default:
-                    System.out.println(ConstantUtil.INVALID_INPUT_MESSAGE);
+                    log.info(ConstantUtil.INVALID_INPUT_MESSAGE);
                     break;
             }
         } while (givenTrainerOperation !=6 );
@@ -136,7 +134,7 @@ class EmployeeController {
             givenTraineeOperation = getNumber();
             switch (givenTraineeOperation) {
                 case 1:
-                    System.out.println("");
+                    log.info("");
                     readTrainee();
                     break;
 
@@ -157,11 +155,11 @@ class EmployeeController {
                     break;
 
                 case 6:
-                    System.out.println(ConstantUtil.MAIN_MENU);
+                    log.info(ConstantUtil.MAIN_MENU);
                     break;
 
                 default:
-                    System.out.println(ConstantUtil.INVALID_INPUT_MESSAGE);
+                    log.info(ConstantUtil.INVALID_INPUT_MESSAGE);
                     break;
             }
         } while (givenTraineeOperation !=6 );
@@ -181,14 +179,14 @@ class EmployeeController {
             System.out.print("Are you want to exit (y/n) ");
             String confirmation = scanner.nextLine().trim().toLowerCase();
             if ("y".equals(confirmation)) {
-                System.out.println(ConstantUtil.THANK_YOU_MESSAGE);
+                log.info(ConstantUtil.THANK_YOU_MESSAGE);
                 terminateStateValue = 3;
                 validInput = true;
             } else if ("n".equals(confirmation)) {
                 terminateStateValue = 0;
                 validInput = true;
             } else {
-                System.out.println(ConstantUtil.INVALID_INPUT_MESSAGE);
+                log.info(ConstantUtil.INVALID_INPUT_MESSAGE);
                 validInput = false;
             }
         } while (!validInput);
@@ -207,44 +205,38 @@ class EmployeeController {
         Scanner scanner = new Scanner(System.in).useDelimiter("\n");
         boolean isValidInput = false;
 
-        System.out.println("\nEnter the values for the Trainer: \n * These Fields are mandatory");
+        log.info("\nEnter the values for the Trainer: \n * These Fields are mandatory");
 
         try {
             String id = employeeService.generateEmployeeId();
-            System.out.println("ID                    : " + id);
+            log.info("ID                    : " + id);
             employeeDTO.setEmployeeId(id);
-        } catch (EmployeeException employeeException) {
-            log.error(ConstantUtil.INSERT_ERROR + employeeException.toString());
-            System.err.println(ConstantUtil.INSERT_ERROR);
-        }
+            employeeDTO.setName(getNameMandatory());
+            employeeDTO.setGender(getGenderMandatory());
+            employeeDTO.setAddress(getAddress());
+            employeeDTO.setDesignation(getDesignation());
+            employeeDTO.setEmailId(getEmailIdMandatory());
+            employeeDTO.setMobileNo(getMobileNoMandatory());
 
-        employeeDTO.setName(getNameMandatory());
-        employeeDTO.setGender(getGenderMandatory());
-        employeeDTO.setAddress(getAddress());
-        employeeDTO.setDesignation(getDesignation());
-        employeeDTO.setEmailId(getEmailIdMandatory());
-        employeeDTO.setMobileNo(getMobileNoMandatory());
+            Date dateOfBirth = getDateOfBirthMandatory();
+            employeeDTO.setDateOfBirth(dateOfBirth);
 
-        Date dateOfBirth = getDateOfBirthMandatory();
-        employeeDTO.setDateOfBirth(dateOfBirth);
+            Date dateOfJoin = getDateOfJoinMandatory(dateOfBirth);
+            employeeDTO.setDateOfJoin(dateOfJoin);
 
-        Date dateOfJoin = getDateOfJoinMandatory(dateOfBirth);
-        employeeDTO.setDateOfJoin(dateOfJoin);
+            employeeDTO.setPreviousExperience(getPreviousExperience(dateOfJoin, dateOfBirth));
+            employeeDTO.setSpecialization(getSpecialization());
+            employeeDTO.setTrainingExperience(getTrainingExperience(dateOfBirth));
+            employeeDTO.setNoOfTrainee(getNoOfTrainee());
 
-        employeeDTO.setPreviousExperience(getPreviousExperience(dateOfJoin, dateOfBirth));
-        employeeDTO.setSpecialization(getSpecialization());
-        employeeDTO.setTrainingExperience(getTrainingExperience(dateOfBirth));
-        employeeDTO.setNoOfTrainee(getNoOfTrainee());
-
-        try {
             if (employeeService.addTrainer(EmployeeMapper.dtoToEntity(employeeDTO))) {
-                System.out.println(ConstantUtil.INSERT_SUCCESS);
+                log.info(ConstantUtil.INSERT_SUCCESS);
             } else {
-                System.out.println(ConstantUtil.INSERT_FAILED);
+                log.info(ConstantUtil.INSERT_FAILED);
             }
         } catch (EmployeeException employeeException) {
             log.error(ConstantUtil.INSERT_ERROR + employeeException.toString());
-            System.err.println(ConstantUtil.INSERT_ERROR);
+            log.info(ConstantUtil.INSERT_ERROR);
         }
     }
 
@@ -265,7 +257,7 @@ class EmployeeController {
             String employeeId = scanner.nextLine().trim();
             Employee updatableEmployee = employeeService.searchTrainerById(employeeId);
             if (updatableEmployee != null) {
-                System.out.println("Please enter the value for corresponding fields!"
+                log.info("Please enter the value for corresponding fields!"
                         + "\nIf you want to skip any field just hit the Enter button");
                 employeeDTO.setName(getName());
                 employeeDTO.setGender(getGender());
@@ -292,24 +284,19 @@ class EmployeeController {
                 employeeDTO.setTrainingExperience(getTrainingExperience(dateOfBirth));
                 employeeDTO.setNoOfTrainee(getNoOfTrainee());
 
-                try {
-                    Employee employee = employeeService.updateTrainer(EmployeeMapper.dtoToEntity(employeeDTO), updatableEmployee);
-                    if (employee != null) {
-                        System.out.println(ConstantUtil.CHANGES_DONE);
-                        System.out.println(EmployeeMapper.entityToDto(employee));
-                    } else {
-                        System.out.println(ConstantUtil.CHANGES_FAILED);
-                    }
-                } catch (EmployeeException employeeException) {
-                    log.error(ConstantUtil.UPDATE_ERROR + employeeException.toString());
-                    System.err.println(ConstantUtil.UPDATE_ERROR);
+                Employee employee = employeeService.updateTrainer(EmployeeMapper.dtoToEntity(employeeDTO), updatableEmployee);
+                if (employee != null) {
+                    log.info(ConstantUtil.CHANGES_DONE);
+                    log.info(EmployeeMapper.entityToDto(employee));
+                } else {
+                    log.info(ConstantUtil.CHANGES_FAILED);
                 }
             } else {
-                System.out.println(ConstantUtil.NO_RECORD_FOR_ID);
+                log.info(ConstantUtil.NO_RECORD_FOR_ID);
             }
         } catch (EmployeeException employeeException) {
             log.error(ConstantUtil.UPDATE_ERROR + employeeException.toString());
-            System.err.println(ConstantUtil.UPDATE_ERROR);
+            log.info(ConstantUtil.UPDATE_ERROR);
         }
     }
 
@@ -326,13 +313,13 @@ class EmployeeController {
             String employeeId = scanner.nextLine().trim();
             Employee employee = employeeService.searchTrainerById(employeeId);
             if (employee != null) {
-                System.out.println(EmployeeMapper.entityToDto(employee));
+                log.info(EmployeeMapper.entityToDto(employee));
             } else {
-                System.out.println(ConstantUtil.NO_RECORD_FOR_ID);
+                log.info(ConstantUtil.NO_RECORD_FOR_ID);
             }
         } catch (EmployeeException employeeException) {
             log.error(ConstantUtil.SEARCH_ERROR + employeeException.toString());
-            System.err.println(ConstantUtil.SEARCH_ERROR);
+            log.info(ConstantUtil.SEARCH_ERROR);
         }
     }
 
@@ -352,44 +339,44 @@ class EmployeeController {
             while (!stop) {
                 List<Employee> employees = employeeService.getTrainers(startPosition);
                 if (totalPage != 0 && !employees.isEmpty()){
-                    System.out.println("Page Number: "+ currentPage);
-                    System.out.println("----------------------------"
+                    log.info("Page Number: "+ currentPage);
+                    log.info("----------------------------"
                                        +"---------------------");
                     for (Employee employee : employees) {
-                        System.out.println(EmployeeMapper.entityToDto(employee));
+                        log.info(EmployeeMapper.entityToDto(employee));
                     }
-                    System.out.println("----------------------------"
+                    log.info("----------------------------"
                                        +"---------------------");
-                    System.out.println("\n1. Next \t2. Previous \t3. End");
+                    log.info("\n1. Next \t2. Previous \t3. End");
                     int givenOption = getNumber();
                     if (givenOption == 1) {
                         if (totalPage != currentPage) {
                             currentPage++;
                             startPosition += 5;
                         } else {
-                            System.out.println("Your in last page!!");
-                            System.out.println("-------------------");
+                            log.info("Your in last page!!");
+                            log.info("-------------------");
                         }
                     } else if (givenOption == 2) {
                         if (currentPage != 1) {
                             currentPage--;
                             startPosition -= 5;
                         } else {
-                            System.out.println("Your in first page!!");
-                            System.out.println("--------------------");
+                            log.info("Your in first page!!");
+                            log.info("--------------------");
                         }
                     } else if (givenOption == 3) {
                         stop = true;
                     } else {
-                        System.out.println(ConstantUtil.INVALID_INPUT_MESSAGE);
+                        log.info(ConstantUtil.INVALID_INPUT_MESSAGE);
                     }
                 } else {
-                    System.out.println("There is no records to show. Please insert the record first!");
+                    log.info("There is no records to show. Please insert the record first!");
                 }
             }        
         } catch (EmployeeException employeeException) {
             log.error(ConstantUtil.DISPLAY_ERROR + employeeException.toString());
-            System.err.println(ConstantUtil.DISPLAY_ERROR);
+            log.info(ConstantUtil.DISPLAY_ERROR);
         }
     }
 
@@ -405,13 +392,13 @@ class EmployeeController {
             System.out.print("Enter the Employee Id: ");
             String employeeId = scanner.nextLine().trim();
             if (employeeService.deleteTrainerById(employeeId)) {
-                System.out.println(ConstantUtil.DELETE_SUCCESS);
+                log.info(ConstantUtil.DELETE_SUCCESS);
             } else {
-                System.out.println(ConstantUtil.NO_RECORD_FOR_ID);
+                log.info(ConstantUtil.NO_RECORD_FOR_ID);
             }
         } catch (EmployeeException employeeException) {
             log.error(ConstantUtil.DELETE_ERROR + employeeException.toString());
-            System.err.println(ConstantUtil.DELETE_ERROR);
+            log.info(ConstantUtil.DELETE_ERROR);
         }
     }
 
@@ -427,44 +414,38 @@ class EmployeeController {
         Scanner scanner = new Scanner(System.in).useDelimiter("\n");
         boolean isValidInput = false;
 
-        System.out.println("\nEnter the values for the Trainee: \n * These Fields are mandatory");
+        log.info("\nEnter the values for the Trainee: \n * These Fields are mandatory");
 
         try {
             String id = employeeService.generateEmployeeId();
-            System.out.println("ID                    : " + id);
+            log.info("ID                    : " + id);
             employeeDTO.setEmployeeId(id);
-        } catch (EmployeeException employeeException) {
-            log.error(ConstantUtil.INSERT_ERROR + employeeException.toString());
-            System.err.println(ConstantUtil.INSERT_ERROR);
-        }
+            employeeDTO.setName(getNameMandatory());
+            employeeDTO.setGender(getGenderMandatory());
+            employeeDTO.setAddress(getAddress());
+            employeeDTO.setDesignation(getDesignation());
+            employeeDTO.setEmailId(getEmailIdMandatory());
+            employeeDTO.setMobileNo(getMobileNoMandatory());
 
-        employeeDTO.setName(getNameMandatory());
-        employeeDTO.setGender(getGenderMandatory());
-        employeeDTO.setAddress(getAddress());
-        employeeDTO.setDesignation(getDesignation());
-        employeeDTO.setEmailId(getEmailIdMandatory());
-        employeeDTO.setMobileNo(getMobileNoMandatory());
+            Date dateOfBirth = getDateOfBirthMandatory();
+            employeeDTO.setDateOfBirth(dateOfBirth);
 
-        Date dateOfBirth = getDateOfBirthMandatory();
-        employeeDTO.setDateOfBirth(dateOfBirth);
+            Date dateOfJoin = getDateOfJoin(dateOfBirth);
+            employeeDTO.setDateOfJoin(dateOfJoin);
 
-        Date dateOfJoin = getDateOfJoin(dateOfBirth);
-        employeeDTO.setDateOfJoin(dateOfJoin);
+            employeeDTO.setPreviousExperience(getPreviousExperience(dateOfJoin, dateOfBirth));
+            employeeDTO.setTrainersName(getTrainersName());
+            employeeDTO.setLearnedSkills(getLearnedSkills());
+            employeeDTO.setTrainingPeriod(getTrainingPeriod());
 
-        employeeDTO.setPreviousExperience(getPreviousExperience(dateOfJoin, dateOfBirth));
-        employeeDTO.setTrainersName(getTrainersName());
-        employeeDTO.setLearnedSkills(getLearnedSkills());
-        employeeDTO.setTrainingPeriod(getTrainingPeriod());
-
-        try {
             if (employeeService.addTrainee(EmployeeMapper.dtoToEntity(employeeDTO))) {
-                System.out.println(ConstantUtil.INSERT_SUCCESS);
+                log.info(ConstantUtil.INSERT_SUCCESS);
             } else {
-                System.out.println(ConstantUtil.INSERT_FAILED);
+                log.info(ConstantUtil.INSERT_FAILED);
             }
         } catch (EmployeeException employeeException) {
             log.error(ConstantUtil.INSERT_ERROR + employeeException.toString());
-            System.err.println(ConstantUtil.INSERT_ERROR);
+            log.info(ConstantUtil.INSERT_ERROR);
         }
     }
 
@@ -485,7 +466,7 @@ class EmployeeController {
             String employeeId = scanner.nextLine().trim();
             Employee updatableEmployee = employeeService.searchTraineeById(employeeId);
             if (updatableEmployee != null) {
-                System.out.println("Please enter the value for corresponding fields!"
+                log.info("Please enter the value for corresponding fields!"
                          + "\nIf you want to skip any field just hit the Enter button");
                 employeeDTO.setName(getName());
                 employeeDTO.setGender(getGender());
@@ -513,24 +494,19 @@ class EmployeeController {
                 employeeDTO.setLearnedSkills(getLearnedSkills());
                 employeeDTO.setTrainingPeriod(getTrainingPeriod());
 
-                try {
-                    Employee employee = employeeService.updateTrainee(EmployeeMapper.dtoToEntity(employeeDTO), updatableEmployee);
-                    if (employee != null) {
-                        System.out.println(ConstantUtil.CHANGES_DONE);
-                        System.out.println(EmployeeMapper.entityToDto(employee));
-                    } else {
-                        System.out.println(ConstantUtil.CHANGES_FAILED);
-                    }
-                } catch (EmployeeException employeeException) {
-                    log.error(ConstantUtil.UPDATE_ERROR + employeeException.toString());
-                    System.err.println(ConstantUtil.UPDATE_ERROR);
+                Employee employee = employeeService.updateTrainee(EmployeeMapper.dtoToEntity(employeeDTO), updatableEmployee);
+                if (employee != null) {
+                    log.info(ConstantUtil.CHANGES_DONE);
+                    log.info(EmployeeMapper.entityToDto(employee));
+                } else {
+                    log.info(ConstantUtil.CHANGES_FAILED);
                 }
             } else {
-                System.out.println(ConstantUtil.NO_RECORD_FOR_ID);
+                log.info(ConstantUtil.NO_RECORD_FOR_ID);
             }
         } catch (EmployeeException employeeException) {
             log.error(ConstantUtil.UPDATE_ERROR + employeeException.toString());
-            System.err.println(ConstantUtil.UPDATE_ERROR);
+            log.info(ConstantUtil.UPDATE_ERROR);
         }
     }
 
@@ -547,13 +523,13 @@ class EmployeeController {
             String employeeId = scanner.nextLine().trim();
             Employee employee = employeeService.searchTraineeById(employeeId);
             if (employee != null) {
-                System.out.println(EmployeeMapper.entityToDto(employee));
+                log.info(EmployeeMapper.entityToDto(employee));
             } else {
-                System.out.println(ConstantUtil.NO_RECORD_FOR_ID);
+                log.info(ConstantUtil.NO_RECORD_FOR_ID);
             }
         } catch(EmployeeException employeeException) {
             log.error(ConstantUtil.SEARCH_ERROR + employeeException.toString());
-            System.err.println(ConstantUtil.SEARCH_ERROR);
+            log.info(ConstantUtil.SEARCH_ERROR);
         }
     }
 
@@ -573,44 +549,44 @@ class EmployeeController {
             while (!stop) {
                 List<Employee> employees = employeeService.getTrainees(startPosition);
                 if (totalPage != 0 && !employees.isEmpty()){
-                    System.out.println("Page Number: "+ currentPage);
-                    System.out.println("----------------------------"
+                    log.info("Page Number: "+ currentPage);
+                    log.info("----------------------------"
                                        +"---------------------");
                     for (Employee employee : employees) {
-                        System.out.println(EmployeeMapper.entityToDto(employee));
+                        log.info(EmployeeMapper.entityToDto(employee));
                     }
-                    System.out.println("----------------------------"
+                    log.info("----------------------------"
                                        +"---------------------");
-                    System.out.println("\n1. Next \t2. Previous \t3. End");
+                    log.info("\n1. Next \t2. Previous \t3. End");
                     int givenOption = getNumber();
                     if (givenOption == 1) {
                         if (totalPage != currentPage) {
                             currentPage++;
                             startPosition += 5;
                         } else {
-                            System.out.println("Your in last page!!");
-                            System.out.println("-------------------");
+                            log.info("Your in last page!!");
+                            log.info("-------------------");
                         }
                     } else if (givenOption == 2) {
                         if (currentPage != 1) {
                             currentPage--;
                             startPosition -= 5;
                         } else {
-                            System.out.println("Your in first page!!");
-                            System.out.println("--------------------");
+                            log.info("Your in first page!!");
+                            log.info("--------------------");
                         }
                     } else if (givenOption == 3) {
                         stop = true;
                     } else {
-                        System.out.println(ConstantUtil.INVALID_INPUT_MESSAGE);
+                        log.info(ConstantUtil.INVALID_INPUT_MESSAGE);
                     }
                 } else {
-                    System.out.println("There is no records to show. Please insert the record first!");
+                    log.info("There is no records to show. Please insert the record first!");
                 }
             }        
         } catch (EmployeeException employeeException) {
             log.error(ConstantUtil.DISPLAY_ERROR + employeeException.toString());
-            System.err.println(ConstantUtil.DISPLAY_ERROR);
+            log.info(ConstantUtil.DISPLAY_ERROR);
         }
     }
 
@@ -626,13 +602,13 @@ class EmployeeController {
             System.out.print("Enter the Employee Id: ");
             String employeeId = scanner.nextLine().trim();
             if (employeeService.deleteTraineeById(employeeId)) {
-                System.out.println(ConstantUtil.DELETE_SUCCESS);
+                log.info(ConstantUtil.DELETE_SUCCESS);
             } else {
-                System.out.println(ConstantUtil.NO_RECORD_FOR_ID);
+                log.info(ConstantUtil.NO_RECORD_FOR_ID);
             }
         } catch (EmployeeException employeeException) {
             log.error(ConstantUtil.DELETE_ERROR + employeeException.toString());
-            System.err.println(ConstantUtil.DELETE_ERROR);
+            log.info(ConstantUtil.DELETE_ERROR);
         }
     }
 
@@ -649,11 +625,11 @@ class EmployeeController {
         int givenNumber = 0;
         do {
             String number = scanner.nextLine().trim();
-            if (CommonUtil.isNumeric(number)) {
+            if (!number.isEmpty() && CommonUtil.isNumeric(number)) {
                 givenNumber = Integer.parseInt(number);
                 validInput = true;
             } else {
-                System.err.println(ConstantUtil.INVALID_INPUT_MESSAGE);
+                log.info(ConstantUtil.INVALID_INPUT_MESSAGE);
                 validInput = false;
             }
         } while (!validInput);
@@ -678,7 +654,7 @@ class EmployeeController {
             if (StringUtil.isValidName(name)) {
                 isValidInput = true;
             } else {
-                System.out.println(ConstantUtil.INVALID_INPUT_MESSAGE);
+                log.info(ConstantUtil.INVALID_INPUT_MESSAGE);
                 isValidInput = false;
             }
         } while (!isValidInput);
@@ -704,7 +680,7 @@ class EmployeeController {
                 enumGender = Gender.valueOf(gender);
                 isValidInput = true;
             } else {
-                System.out.println(ConstantUtil.INVALID_INPUT_MESSAGE);
+                log.info(ConstantUtil.INVALID_INPUT_MESSAGE);
                 isValidInput = false;
             }
         } while (!isValidInput);
@@ -729,7 +705,7 @@ class EmployeeController {
             if (StringUtil.isValidEmailId(emailId)) {
                 isValidInput = true;
             } else {
-                System.out.println(ConstantUtil.INVALID_INPUT_MESSAGE);
+                log.info(ConstantUtil.INVALID_INPUT_MESSAGE);
                 isValidInput = false;
             }
         } while (!isValidInput);
@@ -754,7 +730,7 @@ class EmployeeController {
             if (CommonUtil.isValidMobileNumber(mobileNo) && !mobileNo.isEmpty()) {
                 isValidInput = true;
             } else {
-                System.out.println(ConstantUtil.INVALID_INPUT_MESSAGE);
+                log.info(ConstantUtil.INVALID_INPUT_MESSAGE);
             }
         } while (!isValidInput);
         return mobileNo;
@@ -781,11 +757,11 @@ class EmployeeController {
                 if (age >= ConstantUtil.MIN_AGE && age <= ConstantUtil.MAX_AGE) {
                 isValidInput = true;
                 } else {
-                    System.out.println(ConstantUtil.INVALID_INPUT_MESSAGE);
+                    log.info(ConstantUtil.INVALID_INPUT_MESSAGE);
                     isValidInput = false;
                 }
             } catch (EmployeeException employeeException) {
-                System.out.println(ConstantUtil.INVALID_INPUT_MESSAGE);
+                log.info(ConstantUtil.INVALID_INPUT_MESSAGE);
                 isValidInput = false;
             }
         } while (!isValidInput);
@@ -839,7 +815,7 @@ class EmployeeController {
                 if (StringUtil.isValidName(name)) {
                     isValidInput = true;
                 } else {
-                    System.out.println(ConstantUtil.INVALID_INPUT_MESSAGE);
+                    log.info(ConstantUtil.INVALID_INPUT_MESSAGE);
                     isValidInput = false;
                 }
             } else {
@@ -869,7 +845,7 @@ class EmployeeController {
                     enumGender = Gender.valueOf(gender);
                     isValidInput = true;
                 } else {
-                    System.out.println(ConstantUtil.INVALID_INPUT_MESSAGE);
+                    log.info(ConstantUtil.INVALID_INPUT_MESSAGE);
                     isValidInput = false;
                 }
             } else {
@@ -898,7 +874,7 @@ class EmployeeController {
                         && address.length() < ConstantUtil.MAX_ADDRESS_LENGTH);
             if (!address.isEmpty()) {
                 if (!isValidInput) {
-                    System.out.println(ConstantUtil.INVALID_INPUT_MESSAGE);
+                    log.info(ConstantUtil.INVALID_INPUT_MESSAGE);
                     isValidInput = false;
                 }
             } else {
@@ -927,7 +903,7 @@ class EmployeeController {
             isValidInput = StringUtil.isValidWord(designation);
             if (!designation.isEmpty()) {
                 if (!isValidInput) {
-                    System.out.println(ConstantUtil.INVALID_INPUT_MESSAGE);
+                    log.info(ConstantUtil.INVALID_INPUT_MESSAGE);
                     isValidInput = false;
                 }
             } else {
@@ -957,7 +933,7 @@ class EmployeeController {
                 if (StringUtil.isValidEmailId(emailId)) {
                     isValidInput = true;
                 } else {
-                    System.out.println(ConstantUtil.INVALID_INPUT_MESSAGE);
+                    log.info(ConstantUtil.INVALID_INPUT_MESSAGE);
                     isValidInput = false;
                 }
             } else {
@@ -986,7 +962,7 @@ class EmployeeController {
                 if (CommonUtil.isValidMobileNumber(mobileNo)) {
                     isValidInput = true;
                 } else {
-                    System.out.println(ConstantUtil.INVALID_INPUT_MESSAGE);
+                    log.info(ConstantUtil.INVALID_INPUT_MESSAGE);
                     isValidInput = false;
                 }
             } else {
@@ -1018,11 +994,11 @@ class EmployeeController {
                     if (age >= ConstantUtil.MIN_AGE && age <= ConstantUtil.MAX_AGE) {
                         isValidInput = true;
                     } else {
-                        System.out.println(ConstantUtil.INVALID_INPUT_MESSAGE);
+                        log.info(ConstantUtil.INVALID_INPUT_MESSAGE);
                         isValidInput = false;
                     }
                 } catch (EmployeeException employeeException) {
-                    System.out.println(ConstantUtil.INVALID_INPUT_MESSAGE);
+                    log.info(ConstantUtil.INVALID_INPUT_MESSAGE);
                     isValidInput = false;
                 }
             } else {
@@ -1037,6 +1013,8 @@ class EmployeeController {
      * This method is used read the date of join from user.
      * </p>
      *
+     * @param Date dateOfBirth
+     *         for which date of birth is used to validate and get the date
      * @return Date
      *     return the givenDataOfJoin as String.
      */
@@ -1070,30 +1048,39 @@ class EmployeeController {
      * This method is used read the previous experience from user.
      * </p>
      *
-     * @return float
-     *     return the previousExperience as float.
+     * @param Date dateOfJoin
+     *         for which dateOfJoin is used to validate previousExperience
+     * @param Date dateOfBith
+     *         for which dateOfBirth is used to validate previousExperience
+     * @return Float
+     *     return the previousExperience as Float.
      */
-    private float getPreviousExperience(Date dateOfJoin, Date dateOfBirth) {
+    private Float getPreviousExperience(Date dateOfJoin, Date dateOfBirth) {
         Scanner scanner = new Scanner(System.in).useDelimiter("\n");
         boolean isValidInput = true;
-        float givenPreviousExperience = 0;
+        Float givenPreviousExperience = null;
         do {
             System.out.print("Previous Experience   : ");
             String previousExperience = scanner.nextLine();
             if (!previousExperience.isEmpty()) {
-                try {
+                if (CommonUtil.isDecimalNumber(previousExperience)) {
                     givenPreviousExperience = Float.parseFloat(previousExperience);
-                    float age = DateUtil.calculateYearsMonths(dateOfBirth);
-                    float experience = DateUtil.calculateYearsMonths(dateOfJoin);
-                    isValidInput = givenPreviousExperience >= 0.0 && givenPreviousExperience 
-                                    <= (age - experience) 
-                                    - ((float)ConstantUtil.MIN_AGE);
-                    if (!isValidInput) {
-                        System.err.println(ConstantUtil.INVALID_INPUT_MESSAGE);
+                    try {
+                        float age = DateUtil.calculateYearsMonths(dateOfBirth);
+                        float experience = DateUtil.calculateYearsMonths(dateOfJoin);
+                        isValidInput = givenPreviousExperience >= 0.0 && givenPreviousExperience 
+                                <= (age - experience) - ((float)ConstantUtil.MIN_AGE);
+                        if (!isValidInput) {
+                            givenPreviousExperience = null;
+                            log.info(ConstantUtil.INVALID_INPUT_MESSAGE);
+                        }
+                    } catch (EmployeeException exception) {
+                        log.warn(exception.toString());
+                        log.info(ConstantUtil.INVALID_INPUT_MESSAGE);
+                        isValidInput = false;
                     }
-                } catch (NumberFormatException | EmployeeException exception) {
-                    log.warn(exception.toString());
-                    System.err.println(ConstantUtil.INVALID_INPUT_MESSAGE);
+                } else {
+                    log.info(ConstantUtil.INVALID_INPUT_MESSAGE);
                     isValidInput = false;
                 }
             } else {
@@ -1123,7 +1110,7 @@ class EmployeeController {
                         && specialization.length() < ConstantUtil.MAX_WORDS_LENGTH) {
                     isValidInput = true;
                 } else {
-                    System.out.println(ConstantUtil.INVALID_INPUT_MESSAGE);
+                    log.info(ConstantUtil.INVALID_INPUT_MESSAGE);
                     isValidInput = false;
                 }
             } else {
@@ -1139,29 +1126,39 @@ class EmployeeController {
      * This method is used read the training experience from user.
      * </p>
      *
-     * @return float
-     *     return the givenTrainingExperience as float.
+     * @param Date dateOfBirth
+     *         for which date of birth is used to validate the
+     *         training experience
+     * @return Float
+     *     return the givenTrainingExperience as Float.
      */
-    private float getTrainingExperience(Date dateOfBirth) {
+    private Float getTrainingExperience(Date dateOfBirth) {
         Scanner scanner = new Scanner(System.in).useDelimiter("\n");
         boolean isValidInput = true;
-        float givenTrainingExperience = 0;
+        Float givenTrainingExperience = null;
         do {
             System.out.print("Experience in Training(Years): ");
             String trainingExperience = scanner.nextLine();
             if (!trainingExperience.isEmpty()) {
-                try {
+                if (CommonUtil.isDecimalNumber(trainingExperience)) {
                     givenTrainingExperience = Float.parseFloat(trainingExperience);
-                    int age = DateUtil.calculateYears(dateOfBirth);
-                    isValidInput = (givenTrainingExperience >= 0 && givenTrainingExperience 
-                            <= ((float) age - ConstantUtil.MIN_AGE));
-                    if (!isValidInput) {
-                        givenTrainingExperience = 0;
-                        System.err.println(ConstantUtil.INVALID_INPUT_MESSAGE);
+                    try {
+                        int age = DateUtil.calculateYears(dateOfBirth);
+                        isValidInput = (givenTrainingExperience >= 0 
+                                && givenTrainingExperience 
+                                <= ((float) age - ConstantUtil.MIN_AGE));
+                        if (!isValidInput) {
+                            givenTrainingExperience = null;
+                            log.info(ConstantUtil.INVALID_INPUT_MESSAGE);
+                            isValidInput = false;
+                        }
+                    } catch (EmployeeException exception) {
+                        log.warn(exception.toString());
+                        log.info(ConstantUtil.INVALID_INPUT_MESSAGE);
+                        isValidInput = false;
                     }
-                } catch (NumberFormatException | EmployeeException exception) {
-                    log.warn(exception.toString());
-                    System.err.println(ConstantUtil.INVALID_INPUT_MESSAGE);
+                } else {
+                    log.info(ConstantUtil.INVALID_INPUT_MESSAGE);
                     isValidInput = false;
                 }
             } else {
@@ -1176,29 +1173,27 @@ class EmployeeController {
      * This method is used read the number of trainee from user.
      * </p>
      *
-     * @return int
-     *     return the givenNoOfTrainee as int.
+     * @return Integer
+     *     return the givenNoOfTrainee as Integer.
      */
-    private int getNoOfTrainee() {
+    private Integer getNoOfTrainee() {
         Scanner scanner = new Scanner(System.in).useDelimiter("\n");
         boolean isValidInput = true;
-        int givenNoOfTrainee = 0;
+        Integer givenNoOfTrainee = null;
         do {
             System.out.print("Number of Trainees    : ");
             String noOfTrainee = scanner.nextLine();
             if (!noOfTrainee.isEmpty()) {
-                try {
+                if (CommonUtil.isNumeric(noOfTrainee)) {
                     givenNoOfTrainee = Integer.parseInt(noOfTrainee);
-                    if (givenNoOfTrainee >= 0 && givenNoOfTrainee <= 100) {
-                        isValidInput = true;
-                    } else {
+                    isValidInput = givenNoOfTrainee >= 0 && givenNoOfTrainee <= 100;
+                    if (!isValidInput) {
+                        givenNoOfTrainee = null;
                         isValidInput = false;
-                        givenNoOfTrainee = 0;
-                        System.out.println(ConstantUtil.INVALID_INPUT_MESSAGE);
+                        log.info(ConstantUtil.INVALID_INPUT_MESSAGE);
                     }
-                } catch (NumberFormatException numberFormatException) {
-                    log.warn(numberFormatException.toString());
-                    System.err.println(ConstantUtil.INVALID_INPUT_MESSAGE);
+                } else {
+                    log.info(ConstantUtil.INVALID_INPUT_MESSAGE);
                     isValidInput = false;
                 }
             } else {
@@ -1228,7 +1223,7 @@ class EmployeeController {
                     isValidInput = true;
                     givenTrainersName = new ArrayList<String>(Arrays.asList(trainersName.split(", ")));
                 } else {
-                    System.out.println(ConstantUtil.INVALID_INPUT_MESSAGE);
+                    log.info(ConstantUtil.INVALID_INPUT_MESSAGE);
                     isValidInput = false;
                 } 
             } else {
@@ -1262,29 +1257,27 @@ class EmployeeController {
      * This method is used read the training period from user.
      * </p>
      *
-     * @return int
-     *     return the givenTrainingPeriod as int.
+     * @return Integer
+     *     return the givenTrainingPeriod as Integer.
      */
-    private int getTrainingPeriod() {
+    private Integer getTrainingPeriod() {
         Scanner scanner = new Scanner(System.in).useDelimiter("\n");
         boolean isValidInput = true;
-        int givenTrainingPeriod = 0;
+        Integer givenTrainingPeriod = null;
         do {
             System.out.print("Training period(Months): ");
             String trainingPeriod = scanner.nextLine();
             if (!trainingPeriod.isEmpty()) {
-                try {
+                if (CommonUtil.isNumeric(trainingPeriod)) {
                     givenTrainingPeriod = Integer.parseInt(trainingPeriod);
-                    if ((givenTrainingPeriod >=1 && givenTrainingPeriod <=6)) {
-                        isValidInput = true;
-                    } else {
+                    isValidInput = givenTrainingPeriod >= 1 && givenTrainingPeriod <= 6;
+                    if (!isValidInput) {
+                        givenTrainingPeriod = null;
                         isValidInput = false;
-                        givenTrainingPeriod = 0;
-                        System.out.println(ConstantUtil.INVALID_INPUT_MESSAGE);
+                        log.info(ConstantUtil.INVALID_INPUT_MESSAGE);
                     }
-                } catch (NumberFormatException numberFormatException) {
-                    log.warn(numberFormatException.toString());
-                    System.err.println(ConstantUtil.INVALID_INPUT_MESSAGE);
+                } else {
+                    log.info(ConstantUtil.INVALID_INPUT_MESSAGE);
                     isValidInput = false;
                 }
             } else {

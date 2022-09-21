@@ -64,16 +64,16 @@ public class Employee {
     private Date dateOfJoin;
 
     @Column(name = "previous_experience")
-    private float previousExperience;
+    private Float previousExperience;
 
     @Column(name = "specialization")
     private String specialization;
 
     @Column(name = "training_experience")
-    private float trainingExperience;
+    private Float trainingExperience;
 
     @Column(name = "no_of_trainee")
-    private int noOfTrainee;
+    private Integer noOfTrainee;
 
     @ElementCollection
     @CollectionTable(name = "trainers_name", joinColumns = @JoinColumn(name = "employee_id"))
@@ -86,7 +86,7 @@ public class Employee {
     private Set<String> learnedSkills;
 
     @Column(name = "training_period")
-    private int trainingPeriod;
+    private Integer trainingPeriod;
 
     @ManyToMany
     @JoinTable(
@@ -100,10 +100,10 @@ public class Employee {
     public Employee(String employeeId, String name, Gender gender, 
                     String address, String designation,
                     String emailId, String mobileNo, Date dateOfBirth,
-                    Date dateOfJoin, float previousExperience, 
-                    String specialization, float trainingExperience,
-                    int noOfTrainee, List<String> trainersName,  
-                    Set<String> learnedSkills, int trainingPeriod) {
+                    Date dateOfJoin, Float previousExperience, 
+                    String specialization, Float trainingExperience,
+                    Integer noOfTrainee, List<String> trainersName,  
+                    Set<String> learnedSkills, Integer trainingPeriod) {
 
         this.employeeId = employeeId;
         this.name = name;
@@ -195,11 +195,11 @@ public class Employee {
         this.dateOfJoin = dateOfJoin;
     }
 
-    public float getPreviousExperience() {
+    public Float getPreviousExperience() {
         return previousExperience;
     }
 
-    public void setPreviousExperience(float previousExperience) {
+    public void setPreviousExperience(Float previousExperience) {
         this.previousExperience = previousExperience;
     }
 
@@ -211,19 +211,19 @@ public class Employee {
         this.specialization = specialization;
     }
 
-    public float getTrainingExperience() {
+    public Float getTrainingExperience() {
         return trainingExperience;
     }
 
-    public void setTrainingExperience(float trainingExperience) {
+    public void setTrainingExperience(Float trainingExperience) {
         this.trainingExperience = trainingExperience;
     }
 
-    public int getNoOfTrainee() {
+    public Integer getNoOfTrainee() {
         return noOfTrainee;
     }
 
-    public void setNoOfTrainee(int noOfTrainee) {
+    public void setNoOfTrainee(Integer noOfTrainee) {
         this.noOfTrainee = noOfTrainee;
     }
 
@@ -249,11 +249,11 @@ public class Employee {
         this.learnedSkills = learnedSkills;
     }
 
-    public int getTrainingPeriod() {
+    public Integer getTrainingPeriod() {
         return trainingPeriod;
     }
 
-    public void setTrainingPeriod(int trainingPeriod) {
+    public void setTrainingPeriod(Integer trainingPeriod) {
         this.trainingPeriod = trainingPeriod;
     }
 

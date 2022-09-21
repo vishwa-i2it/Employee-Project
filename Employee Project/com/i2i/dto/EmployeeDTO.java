@@ -26,15 +26,15 @@ public class EmployeeDTO {
     private String mobileNo;
     private Date dateOfBirth;
     private Date dateOfJoin;
-    private int age;
-    private float previousExperience;
-    private float experience;
+    private Integer age;
+    private Float previousExperience;
+    private Float experience;
     private String specialization;
-    private float trainingExperience;
-    private int noOfTrainee;
+    private Float trainingExperience;
+    private Integer noOfTrainee;
     private List<String> trainersName;
     private Set<String> learnedSkills;
-    private int trainingPeriod;
+    private Integer trainingPeriod;
     
     public EmployeeDTO() { }
     
@@ -42,11 +42,11 @@ public class EmployeeDTO {
                        String address, String designation, 
                        String role, String emailId, 
                        String mobileNo, Date dateOfBirth, 
-                       Date dateOfJoin, float previousExperience,
-                       String specialization, float trainingExperience,
-                       int noOfTrainee, List<String> trainersName, 
+                       Date dateOfJoin, Float previousExperience,
+                       String specialization, Float trainingExperience,
+                       Integer noOfTrainee, List<String> trainersName, 
                        Set<String> learnedSkills, 
-                       int trainingPeriod) {
+                       Integer trainingPeriod) {
         this.employeeId = employeeId;
         this.name = name;
         this.gender = gender;
@@ -146,27 +146,27 @@ public class EmployeeDTO {
         this.dateOfJoin = dateOfJoin;
     }
 
-    public int getAge() {
+    public Integer getAge() {
         return age;
     }
 
-    public void setAge(int age) {
+    public void setAge(Integer age) {
         this.age = age;
     }
 
-    public float getPreviousExperience() {
+    public Float getPreviousExperience() {
         return previousExperience;
     }
 
-    public void setPreviousExperience(float previousExperience) {
+    public void setPreviousExperience(Float previousExperience) {
         this.previousExperience = previousExperience;
     }
 
-    public float getExperience() {
+    public Float getExperience() {
         return experience;
     }
 
-    public void setExperience(float experience) {
+    public void setExperience(Float experience) {
         this.experience = experience;
     }
 
@@ -178,19 +178,19 @@ public class EmployeeDTO {
         this.specialization = specialization;
     }
 
-    public float getTrainingExperience() {
+    public Float getTrainingExperience() {
         return trainingExperience;
     }
 
-    public void setTrainingExperience(float trainingExperience) {
+    public void setTrainingExperience(Float trainingExperience) {
         this.trainingExperience = trainingExperience;
     }
 
-    public int getNoOfTrainee() {
+    public Integer getNoOfTrainee() {
         return noOfTrainee;
     }
 
-    public void setNoOfTrainee(int noOfTrainee) {
+    public void setNoOfTrainee(Integer noOfTrainee) {
         this.noOfTrainee = noOfTrainee;
     }
 
@@ -210,11 +210,11 @@ public class EmployeeDTO {
         this.learnedSkills = learnedSkills;
     }
 
-    public int getTrainingPeriod() {
+    public Integer getTrainingPeriod() {
         return trainingPeriod;
     }
 
-    public void setTrainingPeriod(int trainingPeriod) {
+    public void setTrainingPeriod(Integer trainingPeriod) {
         this.trainingPeriod = trainingPeriod;
     }
 
