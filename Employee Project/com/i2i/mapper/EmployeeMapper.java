@@ -3,6 +3,7 @@ package com.i2i.mapper;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.HashSet;
 import java.util.Map;
@@ -110,7 +111,7 @@ public class EmployeeMapper {
         employeeDTO.setMobileNo(employee.getMobileNo());
         employeeDTO.setDateOfBirth(employee.getDateOfBirth());
         employeeDTO.setDateOfJoin(employee.getDateOfJoin());
-        employeeDTO.setExperience(employee.getPreviousExperience() 
+        employeeDTO.setExperience(Optional.ofNullable(employee.getPreviousExperience()).orElse((float) 0) 
                 + DateUtil.calculateYearsMonths(employee.getDateOfJoin()));
         
         employeeDTO.setSpecialization(employee.getSpecialization());

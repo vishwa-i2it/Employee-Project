@@ -232,8 +232,8 @@ public class EmployeeDTO {
                     + "\nDesignation           : " + Optional.ofNullable(this.designation).orElse("") 
                     + "\nDate of Join          : " + simpleDateFormater.format(this.dateOfJoin)
                     + "\nSpecialization        : " + Optional.ofNullable(this.specialization).orElse("")
-                    + "\nExperience in Training: " + trainingExperience 
-                    + "\nNumber of Trainee     : " + noOfTrainee);
+                    + "\nExperience in Training: " + Optional.ofNullable(trainingExperience).orElse((float) 0) 
+                    + "\nNumber of Trainee     : " + Optional.ofNullable(noOfTrainee).orElse(0));
         } else if ("TRAINEE".equals(this.role)) {
             returnString = ("\nID                    : " + this.employeeId 
                     + "\nName                  : " + this.name
@@ -245,7 +245,7 @@ public class EmployeeDTO {
                     + "\nDate of Join          : " + simpleDateFormater.format(this.dateOfJoin)
                     + "\nTrainers Name         : " + String.join(", ", this.trainersName) 
                     + "\nLearned Skills        : " + String.join(", ", this.learnedSkills) 
-                    + "\nTraining period       : " + trainingPeriod); 
+                    + "\nTraining period       : " + Optional.ofNullable(trainingPeriod).orElse(0)); 
         }
         return returnString;
     }
